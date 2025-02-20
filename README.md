@@ -26,15 +26,18 @@ The API follows the OpenAPI 3.0 specification and includes features such as:
    ```bash
    git clone https://github.com/yourusername/OrgaNestApi.git
    cd OrgaNestApi
+   ```
 
 2. **Restore dependencies and build the solution:**
+
+
 
   ```bash
   dotnet restore
   dotnet build --configuration Release
-
+   ```
 3. **Run the API:**
 
   ```bash
   dotnet run --configuration Release
-
+   ```
