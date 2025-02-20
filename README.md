@@ -24,7 +24,7 @@ The API follows the OpenAPI 3.0 specification and includes features such as:
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/yourusername/OrgaNestApi.git
+   git clone https://github.com/EmanuelMorais/OrgaNest.git
    cd OrgaNestApi
    ```
 
