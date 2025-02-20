@@ -1,0 +1,378 @@
+// Validating benchmarks:
+// ***** BenchmarkRunner: Start   *****
+// ***** Found 6 benchmark(s) in total *****
+// ***** Building 1 exe(s) in Parallel: Start   *****
+// start dotnet  restore /p:UseSharedCompilation=false /p:BuildInParallel=false /m:1 /p:Deterministic=true /p:Optimize=true /p:IntermediateOutputPath="/Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/e28a7974-6cb7-4889-af93-0db221e2f881/obj/Release/net8.0/" /p:OutDir="/Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/e28a7974-6cb7-4889-af93-0db221e2f881/bin/Release/net8.0/" /p:OutputPath="/Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/e28a7974-6cb7-4889-af93-0db221e2f881/bin/Release/net8.0/" in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/e28a7974-6cb7-4889-af93-0db221e2f881
+// command took 0.73 sec and exited with 0
+// start dotnet  build -c Release --no-restore /p:UseSharedCompilation=false /p:BuildInParallel=false /m:1 /p:Deterministic=true /p:Optimize=true /p:IntermediateOutputPath="/Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/e28a7974-6cb7-4889-af93-0db221e2f881/obj/Release/net8.0/" /p:OutDir="/Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/e28a7974-6cb7-4889-af93-0db221e2f881/bin/Release/net8.0/" /p:OutputPath="/Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/e28a7974-6cb7-4889-af93-0db221e2f881/bin/Release/net8.0/" --output "/Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/e28a7974-6cb7-4889-af93-0db221e2f881/bin/Release/net8.0/" in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/e28a7974-6cb7-4889-af93-0db221e2f881
+// command took 2.8 sec and exited with 0
+// ***** Done, took 00:00:03 (3.58 sec)   *****
+// Found 6 benchmarks:
+//   EndpointBenchmarks.GetAllCategories: DefaultJob
+//   EndpointBenchmarks.GetCategoryById: DefaultJob
+//   EndpointBenchmarks.GetCategoryByName: DefaultJob
+//   EndpointBenchmarks.CreateCategory: DefaultJob
+//   EndpointBenchmarks.UpdateCategory: DefaultJob
+//   EndpointBenchmarks.DeleteCategory: Job-NTDIJR(InvocationCount=1, UnrollFactor=1)
+
+// **************************
+// Benchmark: EndpointBenchmarks.GetAllCategories: DefaultJob
+// *** Execute ***
+// Launch: 1 / 1
+// Execute: dotnet e28a7974-6cb7-4889-af93-0db221e2f881.dll --anonymousPipes 109 110 --benchmarkName EndpointBenchmarks.GetAllCategories --job Default --benchmarkId 0 in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/e28a7974-6cb7-4889-af93-0db221e2f881/bin/Release/net8.0
+// Failed to set up high priority (Permission denied). In order to run benchmarks with high priority, make sure you have the right permissions.
+// BeforeAnythingElse
+
+// Benchmark Process Environment Information:
+// BenchmarkDotNet v0.14.0
+// Runtime=.NET 8.0.3 (8.0.324.11423), Arm64 RyuJIT AdvSIMD
+// GC=Concurrent Workstation
+// HardwareIntrinsics=AdvSIMD,AES,CRC32,DP,RDM,SHA1,SHA256 VectorSize=128
+// Job: DefaultJob
+
+
+System.Reflection.TargetInvocationException: Exception has been thrown by the target of an invocation.
+ ---> System.Net.Http.HttpRequestException: Connection refused (localhost:7087)
+ ---> System.Net.Sockets.SocketException (61): Connection refused
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|285_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.AddHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at EndpointBenchmarks.GlobalSetup() in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/EndpointBenchmarks.cs:line 33
+   at BenchmarkDotNet.Helpers.AwaitHelper.GetResult(Task task)
+   at BenchmarkDotNet.Autogenerated.Runnable_0.<.ctor>b__3_0() in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/e28a7974-6cb7-4889-af93-0db221e2f881/e28a7974-6cb7-4889-af93-0db221e2f881.notcs:line 192
+   at BenchmarkDotNet.Engines.EngineFactory.CreateReadyToRun(EngineParameters engineParameters)
+   at BenchmarkDotNet.Autogenerated.Runnable_0.Run(IHost host, String benchmarkName) in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/e28a7974-6cb7-4889-af93-0db221e2f881/e28a7974-6cb7-4889-af93-0db221e2f881.notcs:line 176
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)
+   --- End of inner exception stack trace ---
+   at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)
+   at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at BenchmarkDotNet.Autogenerated.UniqueProgramName.AfterAssemblyLoadingAttached(String[] args) in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/e28a7974-6cb7-4889-af93-0db221e2f881/e28a7974-6cb7-4889-af93-0db221e2f881.notcs:line 57
+// AfterAll
+No Workload Results were obtained from the run.
+// Benchmark Process 6115 has exited with code 255.
+
+// ** Remained 5 (83,3%) benchmark(s) to run. Estimated finish 2025-02-20 20:02 (0h 0m from now) **
+// **************************
+// Benchmark: EndpointBenchmarks.GetCategoryById: DefaultJob
+// *** Execute ***
+// Launch: 1 / 1
+// Execute: dotnet e28a7974-6cb7-4889-af93-0db221e2f881.dll --anonymousPipes 109 110 --benchmarkName EndpointBenchmarks.GetCategoryById --job Default --benchmarkId 1 in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/e28a7974-6cb7-4889-af93-0db221e2f881/bin/Release/net8.0
+// Failed to set up high priority (Permission denied). In order to run benchmarks with high priority, make sure you have the right permissions.
+// BeforeAnythingElse
+
+// Benchmark Process Environment Information:
+// BenchmarkDotNet v0.14.0
+// Runtime=.NET 8.0.3 (8.0.324.11423), Arm64 RyuJIT AdvSIMD
+// GC=Concurrent Workstation
+// HardwareIntrinsics=AdvSIMD,AES,CRC32,DP,RDM,SHA1,SHA256 VectorSize=128
+// Job: DefaultJob
+
+
+System.Reflection.TargetInvocationException: Exception has been thrown by the target of an invocation.
+ ---> System.Net.Http.HttpRequestException: Connection refused (localhost:7087)
+ ---> System.Net.Sockets.SocketException (61): Connection refused
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|285_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.AddHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at EndpointBenchmarks.GlobalSetup() in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/EndpointBenchmarks.cs:line 33
+   at BenchmarkDotNet.Helpers.AwaitHelper.GetResult(Task task)
+   at BenchmarkDotNet.Autogenerated.Runnable_1.<.ctor>b__3_0() in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/e28a7974-6cb7-4889-af93-0db221e2f881/e28a7974-6cb7-4889-af93-0db221e2f881.notcs:line 384
+   at BenchmarkDotNet.Engines.EngineFactory.CreateReadyToRun(EngineParameters engineParameters)
+   at BenchmarkDotNet.Autogenerated.Runnable_1.Run(IHost host, String benchmarkName) in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/e28a7974-6cb7-4889-af93-0db221e2f881/e28a7974-6cb7-4889-af93-0db221e2f881.notcs:line 368
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)
+   --- End of inner exception stack trace ---
+   at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)
+   at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at BenchmarkDotNet.Autogenerated.UniqueProgramName.AfterAssemblyLoadingAttached(String[] args) in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/e28a7974-6cb7-4889-af93-0db221e2f881/e28a7974-6cb7-4889-af93-0db221e2f881.notcs:line 57
+// AfterAll
+No Workload Results were obtained from the run.
+// Benchmark Process 6117 has exited with code 255.
+
+// ** Remained 4 (66,7%) benchmark(s) to run. Estimated finish 2025-02-20 20:02 (0h 0m from now) **
+// **************************
+// Benchmark: EndpointBenchmarks.GetCategoryByName: DefaultJob
+// *** Execute ***
+// Launch: 1 / 1
+// Execute: dotnet e28a7974-6cb7-4889-af93-0db221e2f881.dll --anonymousPipes 109 110 --benchmarkName EndpointBenchmarks.GetCategoryByName --job Default --benchmarkId 2 in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/e28a7974-6cb7-4889-af93-0db221e2f881/bin/Release/net8.0
+// Failed to set up high priority (Permission denied). In order to run benchmarks with high priority, make sure you have the right permissions.
+// BeforeAnythingElse
+
+// Benchmark Process Environment Information:
+// BenchmarkDotNet v0.14.0
+// Runtime=.NET 8.0.3 (8.0.324.11423), Arm64 RyuJIT AdvSIMD
+// GC=Concurrent Workstation
+// HardwareIntrinsics=AdvSIMD,AES,CRC32,DP,RDM,SHA1,SHA256 VectorSize=128
+// Job: DefaultJob
+
+
+System.Reflection.TargetInvocationException: Exception has been thrown by the target of an invocation.
+ ---> System.Net.Http.HttpRequestException: Connection refused (localhost:7087)
+ ---> System.Net.Sockets.SocketException (61): Connection refused
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|285_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.AddHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at EndpointBenchmarks.GlobalSetup() in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/EndpointBenchmarks.cs:line 33
+   at BenchmarkDotNet.Helpers.AwaitHelper.GetResult(Task task)
+   at BenchmarkDotNet.Autogenerated.Runnable_2.<.ctor>b__3_0() in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/e28a7974-6cb7-4889-af93-0db221e2f881/e28a7974-6cb7-4889-af93-0db221e2f881.notcs:line 576
+   at BenchmarkDotNet.Engines.EngineFactory.CreateReadyToRun(EngineParameters engineParameters)
+   at BenchmarkDotNet.Autogenerated.Runnable_2.Run(IHost host, String benchmarkName) in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/e28a7974-6cb7-4889-af93-0db221e2f881/e28a7974-6cb7-4889-af93-0db221e2f881.notcs:line 560
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)
+   --- End of inner exception stack trace ---
+   at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)
+   at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at BenchmarkDotNet.Autogenerated.UniqueProgramName.AfterAssemblyLoadingAttached(String[] args) in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/e28a7974-6cb7-4889-af93-0db221e2f881/e28a7974-6cb7-4889-af93-0db221e2f881.notcs:line 57
+// AfterAll
+No Workload Results were obtained from the run.
+// Benchmark Process 6121 has exited with code 255.
+
+// ** Remained 3 (50,0%) benchmark(s) to run. Estimated finish 2025-02-20 20:02 (0h 0m from now) **
+// **************************
+// Benchmark: EndpointBenchmarks.CreateCategory: DefaultJob
+// *** Execute ***
+// Launch: 1 / 1
+// Execute: dotnet e28a7974-6cb7-4889-af93-0db221e2f881.dll --anonymousPipes 109 110 --benchmarkName EndpointBenchmarks.CreateCategory --job Default --benchmarkId 3 in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/e28a7974-6cb7-4889-af93-0db221e2f881/bin/Release/net8.0
+// Failed to set up high priority (Permission denied). In order to run benchmarks with high priority, make sure you have the right permissions.
+// BeforeAnythingElse
+
+// Benchmark Process Environment Information:
+// BenchmarkDotNet v0.14.0
+// Runtime=.NET 8.0.3 (8.0.324.11423), Arm64 RyuJIT AdvSIMD
+// GC=Concurrent Workstation
+// HardwareIntrinsics=AdvSIMD,AES,CRC32,DP,RDM,SHA1,SHA256 VectorSize=128
+// Job: DefaultJob
+
+
+System.Reflection.TargetInvocationException: Exception has been thrown by the target of an invocation.
+ ---> System.Net.Http.HttpRequestException: Connection refused (localhost:7087)
+ ---> System.Net.Sockets.SocketException (61): Connection refused
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|285_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.AddHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at EndpointBenchmarks.GlobalSetup() in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/EndpointBenchmarks.cs:line 33
+   at BenchmarkDotNet.Helpers.AwaitHelper.GetResult(Task task)
+   at BenchmarkDotNet.Autogenerated.Runnable_3.<.ctor>b__3_0() in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/e28a7974-6cb7-4889-af93-0db221e2f881/e28a7974-6cb7-4889-af93-0db221e2f881.notcs:line 768
+   at BenchmarkDotNet.Engines.EngineFactory.CreateReadyToRun(EngineParameters engineParameters)
+   at BenchmarkDotNet.Autogenerated.Runnable_3.Run(IHost host, String benchmarkName) in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/e28a7974-6cb7-4889-af93-0db221e2f881/e28a7974-6cb7-4889-af93-0db221e2f881.notcs:line 752
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)
+   --- End of inner exception stack trace ---
+   at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)
+   at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at BenchmarkDotNet.Autogenerated.UniqueProgramName.AfterAssemblyLoadingAttached(String[] args) in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/e28a7974-6cb7-4889-af93-0db221e2f881/e28a7974-6cb7-4889-af93-0db221e2f881.notcs:line 57
+// AfterAll
+No Workload Results were obtained from the run.
+// Benchmark Process 6124 has exited with code 255.
+
+// ** Remained 2 (33,3%) benchmark(s) to run. Estimated finish 2025-02-20 20:02 (0h 0m from now) **
+// **************************
+// Benchmark: EndpointBenchmarks.UpdateCategory: DefaultJob
+// *** Execute ***
+// Launch: 1 / 1
+// Execute: dotnet e28a7974-6cb7-4889-af93-0db221e2f881.dll --anonymousPipes 109 110 --benchmarkName EndpointBenchmarks.UpdateCategory --job Default --benchmarkId 4 in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/e28a7974-6cb7-4889-af93-0db221e2f881/bin/Release/net8.0
+// Failed to set up high priority (Permission denied). In order to run benchmarks with high priority, make sure you have the right permissions.
+// BeforeAnythingElse
+
+// Benchmark Process Environment Information:
+// BenchmarkDotNet v0.14.0
+// Runtime=.NET 8.0.3 (8.0.324.11423), Arm64 RyuJIT AdvSIMD
+// GC=Concurrent Workstation
+// HardwareIntrinsics=AdvSIMD,AES,CRC32,DP,RDM,SHA1,SHA256 VectorSize=128
+// Job: DefaultJob
+
+
+System.Reflection.TargetInvocationException: Exception has been thrown by the target of an invocation.
+ ---> System.Net.Http.HttpRequestException: Connection refused (localhost:7087)
+ ---> System.Net.Sockets.SocketException (61): Connection refused
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|285_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.AddHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at EndpointBenchmarks.GlobalSetup() in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/EndpointBenchmarks.cs:line 33
+   at BenchmarkDotNet.Helpers.AwaitHelper.GetResult(Task task)
+   at BenchmarkDotNet.Autogenerated.Runnable_4.<.ctor>b__3_0() in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/e28a7974-6cb7-4889-af93-0db221e2f881/e28a7974-6cb7-4889-af93-0db221e2f881.notcs:line 960
+   at BenchmarkDotNet.Engines.EngineFactory.CreateReadyToRun(EngineParameters engineParameters)
+   at BenchmarkDotNet.Autogenerated.Runnable_4.Run(IHost host, String benchmarkName) in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/e28a7974-6cb7-4889-af93-0db221e2f881/e28a7974-6cb7-4889-af93-0db221e2f881.notcs:line 944
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)
+   --- End of inner exception stack trace ---
+   at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)
+   at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at BenchmarkDotNet.Autogenerated.UniqueProgramName.AfterAssemblyLoadingAttached(String[] args) in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/e28a7974-6cb7-4889-af93-0db221e2f881/e28a7974-6cb7-4889-af93-0db221e2f881.notcs:line 57
+// AfterAll
+No Workload Results were obtained from the run.
+// Benchmark Process 6125 has exited with code 255.
+
+// ** Remained 1 (16,7%) benchmark(s) to run. Estimated finish 2025-02-20 20:02 (0h 0m from now) **
+// **************************
+// Benchmark: EndpointBenchmarks.DeleteCategory: Job-NTDIJR(InvocationCount=1, UnrollFactor=1)
+// *** Execute ***
+// Launch: 1 / 1
+// Execute: dotnet e28a7974-6cb7-4889-af93-0db221e2f881.dll --anonymousPipes 109 110 --benchmarkName EndpointBenchmarks.DeleteCategory --job "InvocationCount=1, UnrollFactor=1" --benchmarkId 5 in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/e28a7974-6cb7-4889-af93-0db221e2f881/bin/Release/net8.0
+// Failed to set up high priority (Permission denied). In order to run benchmarks with high priority, make sure you have the right permissions.
+// BeforeAnythingElse
+
+// Benchmark Process Environment Information:
+// BenchmarkDotNet v0.14.0
+// Runtime=.NET 8.0.3 (8.0.324.11423), Arm64 RyuJIT AdvSIMD
+// GC=Concurrent Workstation
+// HardwareIntrinsics=AdvSIMD,AES,CRC32,DP,RDM,SHA1,SHA256 VectorSize=128
+// Job: Job-PWDFTZ(InvocationCount=1, UnrollFactor=1)
+
+
+System.Reflection.TargetInvocationException: Exception has been thrown by the target of an invocation.
+ ---> System.Net.Http.HttpRequestException: Connection refused (localhost:7087)
+ ---> System.Net.Sockets.SocketException (61): Connection refused
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|285_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.AddHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at EndpointBenchmarks.GlobalSetup() in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/EndpointBenchmarks.cs:line 33
+   at BenchmarkDotNet.Helpers.AwaitHelper.GetResult(Task task)
+   at BenchmarkDotNet.Autogenerated.Runnable_5.<.ctor>b__3_0() in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/e28a7974-6cb7-4889-af93-0db221e2f881/e28a7974-6cb7-4889-af93-0db221e2f881.notcs:line 1153
+   at BenchmarkDotNet.Engines.EngineFactory.CreateReadyToRun(EngineParameters engineParameters)
+   at BenchmarkDotNet.Autogenerated.Runnable_5.Run(IHost host, String benchmarkName) in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/e28a7974-6cb7-4889-af93-0db221e2f881/e28a7974-6cb7-4889-af93-0db221e2f881.notcs:line 1137
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)
+   --- End of inner exception stack trace ---
+   at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)
+   at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at BenchmarkDotNet.Autogenerated.UniqueProgramName.AfterAssemblyLoadingAttached(String[] args) in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/e28a7974-6cb7-4889-af93-0db221e2f881/e28a7974-6cb7-4889-af93-0db221e2f881.notcs:line 57
+// AfterAll
+No Workload Results were obtained from the run.
+// Benchmark Process 6126 has exited with code 255.
+
+// ** Remained 0 (0,0%) benchmark(s) to run. Estimated finish 2025-02-20 20:02 (0h 0m from now) **
+// ***** BenchmarkRunner: Finish  *****
+
+// * Export *
+  BenchmarkDotNet.Artifacts/results/EndpointBenchmarks-report.csv
+  BenchmarkDotNet.Artifacts/results/EndpointBenchmarks-report-github.md
+  BenchmarkDotNet.Artifacts/results/EndpointBenchmarks-report.html
+
+// * Detailed results *
+EndpointBenchmarks.GetAllCategories: DefaultJob
+Runtime = .NET 8.0.3 (8.0.324.11423), Arm64 RyuJIT AdvSIMD; GC = Concurrent Workstation
+There are not any results runs
+
+EndpointBenchmarks.GetCategoryById: DefaultJob
+Runtime = .NET 8.0.3 (8.0.324.11423), Arm64 RyuJIT AdvSIMD; GC = Concurrent Workstation
+There are not any results runs
+
+EndpointBenchmarks.GetCategoryByName: DefaultJob
+Runtime = .NET 8.0.3 (8.0.324.11423), Arm64 RyuJIT AdvSIMD; GC = Concurrent Workstation
+There are not any results runs
+
+EndpointBenchmarks.CreateCategory: DefaultJob
+Runtime = .NET 8.0.3 (8.0.324.11423), Arm64 RyuJIT AdvSIMD; GC = Concurrent Workstation
+There are not any results runs
+
+EndpointBenchmarks.UpdateCategory: DefaultJob
+Runtime = .NET 8.0.3 (8.0.324.11423), Arm64 RyuJIT AdvSIMD; GC = Concurrent Workstation
+There are not any results runs
+
+EndpointBenchmarks.DeleteCategory: Job-NTDIJR(InvocationCount=1, UnrollFactor=1)
+Runtime = .NET 8.0.3 (8.0.324.11423), Arm64 RyuJIT AdvSIMD; GC = Concurrent Workstation
+There are not any results runs
+
+// * Summary *
+
+BenchmarkDotNet v0.14.0, macOS Sequoia 15.3.1 (24D70) [Darwin 24.3.0]
+Apple M1, 1 CPU, 8 logical and 8 physical cores
+.NET SDK 8.0.202
+  [Host]     : .NET 8.0.3 (8.0.324.11423), Arm64 RyuJIT AdvSIMD
+  DefaultJob : .NET 8.0.3 (8.0.324.11423), Arm64 RyuJIT AdvSIMD
+  Job-NTDIJR : .NET 8.0.3 (8.0.324.11423), Arm64 RyuJIT AdvSIMD
+
+
+| Method            | Job        | InvocationCount | UnrollFactor | Mean | Error |
+|------------------ |----------- |---------------- |------------- |-----:|------:|
+| GetAllCategories  | DefaultJob | Default         | 16           |   NA |    NA |
+| GetCategoryById   | DefaultJob | Default         | 16           |   NA |    NA |
+| GetCategoryByName | DefaultJob | Default         | 16           |   NA |    NA |
+| CreateCategory    | DefaultJob | Default         | 16           |   NA |    NA |
+| UpdateCategory    | DefaultJob | Default         | 16           |   NA |    NA |
+| DeleteCategory    | Job-NTDIJR | 1               | 1            |   NA |    NA |
+
+Benchmarks with issues:
+  EndpointBenchmarks.GetAllCategories: DefaultJob
+  EndpointBenchmarks.GetCategoryById: DefaultJob
+  EndpointBenchmarks.GetCategoryByName: DefaultJob
+  EndpointBenchmarks.CreateCategory: DefaultJob
+  EndpointBenchmarks.UpdateCategory: DefaultJob
+  EndpointBenchmarks.DeleteCategory: Job-NTDIJR(InvocationCount=1, UnrollFactor=1)
+
+// * Legends *
+  Mean  : Arithmetic mean of all measurements
+  Error : Half of 99.9% confidence interval
+  1 ns  : 1 Nanosecond (0.000000001 sec)
+
+// * Diagnostic Output - MemoryDiagnoser *
+
+
+// ***** BenchmarkRunner: End *****
+Run time: 00:00:00 (0.82 sec), executed benchmarks: 6
+
+Global total time: 00:00:04 (4.69 sec), executed benchmarks: 6
+// * Artifacts cleanup *
+Artifacts cleanup is finished

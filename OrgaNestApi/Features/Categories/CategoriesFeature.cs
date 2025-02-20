@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OrgaNestApi.Common.Domain;
 using OrgaNestApi.Infrastructure.Database;
+using OrgaNestApi.Infrastructure.Extensions;
 
 namespace OrgaNestApi.Features.Categories;
 
@@ -18,7 +19,7 @@ public class CategoriesController : ControllerBase
 
     // POST: api/Categories
     [HttpPost]
-    public async Task<IActionResult> CreateCategoryAsync([FromBody] CreateCategoryRequest request)
+    public async Task<IActionResult> CreateCategoryAsync([FromBody] CreateCategoryRequest request, CancellationToken cancellationToken)
     {
         if (string.IsNullOrEmpty(request.Name))
         {
@@ -26,7 +27,7 @@ public class CategoriesController : ControllerBase
         }
 
         // Check if category already exists via service
-        var existingCategory = await _categoryService.GetCategoryByNameAsync(request.Name);
+        var existingCategory = await _categoryService.GetCategoryByNameAsync(request.Name, cancellationToken);
 
         if (existingCategory != null)
         {
@@ -34,16 +35,16 @@ public class CategoriesController : ControllerBase
         }
 
         // Pass the DTO to service to create the category
-        var category = await _categoryService.CreateCategoryAsync(request);
+        var category = await _categoryService.CreateCategoryAsync(request, cancellationToken);
 
         return CreatedAtAction(nameof(GetCategoryById), new { id = category.Id }, category);
     }
 
     // Get Category by Id (optional)
     [HttpGet("{id}")]
-    public async Task<ActionResult<Category>> GetCategoryById(Guid id)
+    public async Task<ActionResult<Category>> GetCategoryById(Guid id, CancellationToken cancellationToken)
     {
-        var category = await _categoryService.GetCategoryByIdAsync(id);
+        var category = await _categoryService.GetCategoryByIdAsync(id, cancellationToken);
 
         if (category == null)
         {
@@ -55,9 +56,9 @@ public class CategoriesController : ControllerBase
     
     // Get Category by Name
     [HttpGet("search")]
-    public async Task<ActionResult<Category>> GetCategoryByName([FromQuery] string name)
+    public async Task<ActionResult<Category>> GetCategoryByName([FromQuery] string name, CancellationToken cancellationToken)
     {
-        var category = await _categoryService.GetCategoryByNameAsync(name);
+        var category = await _categoryService.GetCategoryByNameAsync(name, cancellationToken);
 
         if (category == null)
         {
@@ -67,51 +68,47 @@ public class CategoriesController : ControllerBase
         return category;
     }
     
-    // Get all categories
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Category>>> GetAll()
+    public async Task<ActionResult<PagedResult<Category>>> GetAll(
+        [FromQuery] int pageNumber = 1, 
+        [FromQuery] int pageSize = 10, 
+        CancellationToken cancellationToken = default)
     {
-        var categories = await _categoryService.GetAllAsync();
-
-        if (categories == null)
-        {
-            return NotFound();
-        }
-
-        return categories;
-    }    
+        var pagedCategories = await _categoryService.GetAllAsync(pageNumber, pageSize, cancellationToken);
+        return Ok(pagedCategories);
+    }  
     
     // Update Category by Id
     [HttpPut("{id:guid}")]
-    public async Task<IActionResult> UpdateCategory(Guid id, [FromBody] UpdateCategoryRequest request)
+    public async Task<IActionResult> UpdateCategory(Guid id, [FromBody] UpdateCategoryRequest request, CancellationToken cancellationToken)
     {
         if (string.IsNullOrEmpty(request.Name))
         {
             return BadRequest("Category name is required.");
         }
 
-        var existingCategory = await _categoryService.GetCategoryByIdAsync(id);
+        var existingCategory = await _categoryService.GetCategoryByIdAsync(id,cancellationToken);
         if (existingCategory == null)
         {
             return NotFound($"Category with ID {id} not found.");
         }
 
-        var updatedCategory = await _categoryService.UpdateCategoryAsync(id, request);
+        var updatedCategory = await _categoryService.UpdateCategoryAsync(id, request, cancellationToken);
 
         return Ok(updatedCategory);
     }
     
     // DELETE: api/categories/{id}
     [HttpDelete("{id:guid}")]
-    public async Task<IActionResult> DeleteCategory(Guid id)
+    public async Task<IActionResult> DeleteCategory(Guid id, CancellationToken cancellationToken)
     {
-        var existingCategory = await _categoryService.GetCategoryByIdAsync(id);
+        var existingCategory = await _categoryService.GetCategoryByIdAsync(id, cancellationToken);
         if (existingCategory == null)
         {
             return NotFound($"Category with ID {id} not found.");
         }
 
-        await _categoryService.DeleteCategoryAsync(id);
+        await _categoryService.DeleteCategoryAsync(id, cancellationToken);
 
         return NoContent(); // 204 No Content
     }
@@ -128,7 +125,7 @@ public class CategoryService : ICategoryService
     }
 
     // Now accepts DTO and creates the Category entity internally
-    public async Task<Category> CreateCategoryAsync(CreateCategoryRequest dto)
+    public async Task<Category> CreateCategoryAsync(CreateCategoryRequest dto, CancellationToken cancellationToken)
     {
         // Validate the incoming DTO if necessary
         if (string.IsNullOrEmpty(dto.Name))
@@ -137,7 +134,7 @@ public class CategoryService : ICategoryService
         }
 
         // Check if category already exists
-        var existingCategory = await GetCategoryByNameAsync(dto.Name);
+        var existingCategory = await GetCategoryByNameAsync(dto.Name, cancellationToken);
         if (existingCategory != null)
         {
             throw new InvalidOperationException($"Category '{dto.Name}' already exists.");
@@ -157,27 +154,29 @@ public class CategoryService : ICategoryService
     }
 
     // Get Category by ID
-    public async Task<Category?> GetCategoryByIdAsync(Guid categoryId)
+    public async Task<Category?> GetCategoryByIdAsync(Guid categoryId, CancellationToken cancellationToken)
     {
         return await _context.Categories.FindAsync(categoryId);
     }
 
     // Get all Categories
-    public async Task<List<Category>> GetAllAsync()
+    public async Task<PagedResult<Category>> GetAllAsync(int pageNumber, int pageSize, CancellationToken cancellationToken)
     {
-        return await _context.Categories.ToListAsync();
+        return await _context.Categories.AsNoTracking()
+            .OrderBy(c => c.Name) // or any sorting criteria
+            .GetPagedAsync(pageNumber, pageSize, cancellationToken);
     }
     
     // Get Category by Name
-    public async Task<Category?> GetCategoryByNameAsync(string name)
+    public async Task<Category?> GetCategoryByNameAsync(string name, CancellationToken cancellationToken)
     {
         return await _context.Categories
-            .FirstOrDefaultAsync(c => c.Name.ToLower() == name.ToLower());
+            .FirstOrDefaultAsync(c => c.Name.ToLower() == name.ToLower(), cancellationToken);
     }
     
-    public async Task<Category> UpdateCategoryAsync(Guid id, UpdateCategoryRequest request)
+    public async Task<Category> UpdateCategoryAsync(Guid id, UpdateCategoryRequest request, CancellationToken cancellationToken)
     {
-        var category = await _context.Categories.FindAsync(id);
+        var category = await _context.Categories.FindAsync(id, cancellationToken);
         if (category == null)
         {
             throw new KeyNotFoundException("Category not found.");
@@ -186,14 +185,14 @@ public class CategoryService : ICategoryService
         category.Name = request.Name;
 
         _context.Categories.Update(category);
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(cancellationToken);
 
         return category;
     }
     
-    public async Task DeleteCategoryAsync(Guid id)
+    public async Task DeleteCategoryAsync(Guid id, CancellationToken cancellationToken)
     {
-        var category = await _context.Categories.FindAsync(id);
+        var category = await _context.Categories.FindAsync(id, cancellationToken);
         if (category == null)
         {
             throw new KeyNotFoundException("Category not found.");
@@ -201,6 +200,6 @@ public class CategoryService : ICategoryService
 
         _context.Categories.Remove(category);
         
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(cancellationToken);
     }
 }

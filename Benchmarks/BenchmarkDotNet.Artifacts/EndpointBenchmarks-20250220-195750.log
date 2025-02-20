@@ -1,0 +1,477 @@
+// Validating benchmarks:
+// ***** BenchmarkRunner: Start   *****
+// ***** Found 6 benchmark(s) in total *****
+// ***** Building 1 exe(s) in Parallel: Start   *****
+// start dotnet  restore /p:UseSharedCompilation=false /p:BuildInParallel=false /m:1 /p:Deterministic=true /p:Optimize=true /p:IntermediateOutputPath="/Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/296d584c-c439-43ac-bb75-c72493ae4d06/obj/Release/net8.0/" /p:OutDir="/Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/296d584c-c439-43ac-bb75-c72493ae4d06/bin/Release/net8.0/" /p:OutputPath="/Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/296d584c-c439-43ac-bb75-c72493ae4d06/bin/Release/net8.0/" in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/296d584c-c439-43ac-bb75-c72493ae4d06
+// command took 1.11 sec and exited with 0
+// start dotnet  build -c Release --no-restore /p:UseSharedCompilation=false /p:BuildInParallel=false /m:1 /p:Deterministic=true /p:Optimize=true /p:IntermediateOutputPath="/Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/296d584c-c439-43ac-bb75-c72493ae4d06/obj/Release/net8.0/" /p:OutDir="/Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/296d584c-c439-43ac-bb75-c72493ae4d06/bin/Release/net8.0/" /p:OutputPath="/Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/296d584c-c439-43ac-bb75-c72493ae4d06/bin/Release/net8.0/" --output "/Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/296d584c-c439-43ac-bb75-c72493ae4d06/bin/Release/net8.0/" in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/296d584c-c439-43ac-bb75-c72493ae4d06
+// command took 3.27 sec and exited with 0
+// ***** Done, took 00:00:04 (4.44 sec)   *****
+// Found 6 benchmarks:
+//   EndpointBenchmarks.GetAllCategories: DefaultJob
+//   EndpointBenchmarks.GetCategoryById: DefaultJob
+//   EndpointBenchmarks.GetCategoryByName: DefaultJob
+//   EndpointBenchmarks.CreateCategory: DefaultJob
+//   EndpointBenchmarks.UpdateCategory: DefaultJob
+//   EndpointBenchmarks.DeleteCategory: Job-RPQZRT(InvocationCount=1, UnrollFactor=1)
+
+// **************************
+// Benchmark: EndpointBenchmarks.GetAllCategories: DefaultJob
+// *** Execute ***
+// Launch: 1 / 1
+// Execute: dotnet 296d584c-c439-43ac-bb75-c72493ae4d06.dll --anonymousPipes 109 110 --benchmarkName EndpointBenchmarks.GetAllCategories --job Default --benchmarkId 0 in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/296d584c-c439-43ac-bb75-c72493ae4d06/bin/Release/net8.0
+// Failed to set up high priority (Permission denied). In order to run benchmarks with high priority, make sure you have the right permissions.
+// BeforeAnythingElse
+
+// Benchmark Process Environment Information:
+// BenchmarkDotNet v0.14.0
+// Runtime=.NET 8.0.3 (8.0.324.11423), Arm64 RyuJIT AdvSIMD
+// GC=Concurrent Workstation
+// HardwareIntrinsics=AdvSIMD,AES,CRC32,DP,RDM,SHA1,SHA256 VectorSize=128
+// Job: DefaultJob
+
+OverheadJitting  1: 1 op, 113417.00 ns, 113.4170 us/op
+WorkloadJitting  1: 1 op, 21830875.00 ns, 21.8309 ms/op
+
+OverheadJitting  2: 16 op, 122500.00 ns, 7.6563 us/op
+WorkloadJitting  2: 16 op, 43237500.00 ns, 2.7023 ms/op
+
+WorkloadPilot    1: 16 op, 16617167.00 ns, 1.0386 ms/op
+WorkloadPilot    2: 32 op, 44125166.00 ns, 1.3789 ms/op
+WorkloadPilot    3: 64 op, 55092125.00 ns, 860.8145 us/op
+WorkloadPilot    4: 128 op, 117571625.00 ns, 918.5283 us/op
+WorkloadPilot    5: 256 op, 237415208.00 ns, 927.4032 us/op
+WorkloadPilot    6: 512 op, 394759959.00 ns, 771.0155 us/op
+WorkloadPilot    7: 1024 op, 733097333.00 ns, 715.9154 us/op
+
+OverheadWarmup   1: 1024 op, 3083.00 ns, 3.0107 ns/op
+OverheadWarmup   2: 1024 op, 2250.00 ns, 2.1973 ns/op
+OverheadWarmup   3: 1024 op, 2250.00 ns, 2.1973 ns/op
+OverheadWarmup   4: 1024 op, 2209.00 ns, 2.1572 ns/op
+OverheadWarmup   5: 1024 op, 2167.00 ns, 2.1162 ns/op
+OverheadWarmup   6: 1024 op, 2167.00 ns, 2.1162 ns/op
+OverheadWarmup   7: 1024 op, 2084.00 ns, 2.0352 ns/op
+
+OverheadActual   1: 1024 op, 2375.00 ns, 2.3193 ns/op
+OverheadActual   2: 1024 op, 2250.00 ns, 2.1973 ns/op
+OverheadActual   3: 1024 op, 2208.00 ns, 2.1563 ns/op
+OverheadActual   4: 1024 op, 2375.00 ns, 2.3193 ns/op
+OverheadActual   5: 1024 op, 2542.00 ns, 2.4824 ns/op
+OverheadActual   6: 1024 op, 2250.00 ns, 2.1973 ns/op
+OverheadActual   7: 1024 op, 2584.00 ns, 2.5234 ns/op
+OverheadActual   8: 1024 op, 2208.00 ns, 2.1563 ns/op
+OverheadActual   9: 1024 op, 2208.00 ns, 2.1563 ns/op
+OverheadActual  10: 1024 op, 2167.00 ns, 2.1162 ns/op
+OverheadActual  11: 1024 op, 2250.00 ns, 2.1973 ns/op
+OverheadActual  12: 1024 op, 2334.00 ns, 2.2793 ns/op
+OverheadActual  13: 1024 op, 2375.00 ns, 2.3193 ns/op
+OverheadActual  14: 1024 op, 2584.00 ns, 2.5234 ns/op
+OverheadActual  15: 1024 op, 2500.00 ns, 2.4414 ns/op
+OverheadActual  16: 1024 op, 2459.00 ns, 2.4014 ns/op
+OverheadActual  17: 1024 op, 2458.00 ns, 2.4004 ns/op
+OverheadActual  18: 1024 op, 2416.00 ns, 2.3594 ns/op
+OverheadActual  19: 1024 op, 3375.00 ns, 3.2959 ns/op
+OverheadActual  20: 1024 op, 2541.00 ns, 2.4814 ns/op
+
+WorkloadWarmup   1: 1024 op, 912960542.00 ns, 891.5630 us/op
+WorkloadWarmup   2: 1024 op, 651465875.00 ns, 636.1971 us/op
+WorkloadWarmup   3: 1024 op, 541991041.00 ns, 529.2881 us/op
+WorkloadWarmup   4: 1024 op, 408876833.00 ns, 399.2938 us/op
+WorkloadWarmup   5: 1024 op, 349714708.00 ns, 341.5183 us/op
+WorkloadWarmup   6: 1024 op, 457994000.00 ns, 447.2598 us/op
+WorkloadWarmup   7: 1024 op, 360974792.00 ns, 352.5144 us/op
+WorkloadWarmup   8: 1024 op, 333919875.00 ns, 326.0936 us/op
+WorkloadWarmup   9: 1024 op, 347583083.00 ns, 339.4366 us/op
+WorkloadWarmup  10: 1024 op, 356841583.00 ns, 348.4781 us/op
+WorkloadWarmup  11: 1024 op, 547707625.00 ns, 534.8707 us/op
+WorkloadWarmup  12: 1024 op, 362671625.00 ns, 354.1715 us/op
+
+// BeforeActualRun
+WorkloadActual   1: 1024 op, 338909458.00 ns, 330.9663 us/op
+WorkloadActual   2: 1024 op, 353988583.00 ns, 345.6920 us/op
+WorkloadActual   3: 1024 op, 343596917.00 ns, 335.5439 us/op
+WorkloadActual   4: 1024 op, 362692917.00 ns, 354.1923 us/op
+WorkloadActual   5: 1024 op, 354832875.00 ns, 346.5165 us/op
+WorkloadActual   6: 1024 op, 351853750.00 ns, 343.6072 us/op
+WorkloadActual   7: 1024 op, 364192959.00 ns, 355.6572 us/op
+WorkloadActual   8: 1024 op, 794082625.00 ns, 775.4713 us/op
+WorkloadActual   9: 1024 op, 484182167.00 ns, 472.8341 us/op
+WorkloadActual  10: 1024 op, 377775375.00 ns, 368.9213 us/op
+WorkloadActual  11: 1024 op, 358276708.00 ns, 349.8796 us/op
+WorkloadActual  12: 1024 op, 345990791.00 ns, 337.8816 us/op
+WorkloadActual  13: 1024 op, 337408208.00 ns, 329.5002 us/op
+WorkloadActual  14: 1024 op, 346192083.00 ns, 338.0782 us/op
+WorkloadActual  15: 1024 op, 360196083.00 ns, 351.7540 us/op
+WorkloadActual  16: 1024 op, 339863417.00 ns, 331.8979 us/op
+WorkloadActual  17: 1024 op, 343416875.00 ns, 335.3680 us/op
+WorkloadActual  18: 1024 op, 513393291.00 ns, 501.3606 us/op
+WorkloadActual  19: 1024 op, 486292959.00 ns, 474.8955 us/op
+WorkloadActual  20: 1024 op, 341593708.00 ns, 333.5876 us/op
+WorkloadActual  21: 1024 op, 338870333.00 ns, 330.9281 us/op
+WorkloadActual  22: 1024 op, 360835667.00 ns, 352.3786 us/op
+WorkloadActual  23: 1024 op, 364990084.00 ns, 356.4356 us/op
+WorkloadActual  24: 1024 op, 326150000.00 ns, 318.5059 us/op
+WorkloadActual  25: 1024 op, 351900208.00 ns, 343.6525 us/op
+WorkloadActual  26: 1024 op, 345420375.00 ns, 337.3246 us/op
+WorkloadActual  27: 1024 op, 337063750.00 ns, 329.1638 us/op
+WorkloadActual  28: 1024 op, 367744250.00 ns, 359.1252 us/op
+WorkloadActual  29: 1024 op, 463149708.00 ns, 452.2946 us/op
+WorkloadActual  30: 1024 op, 333000833.00 ns, 325.1961 us/op
+WorkloadActual  31: 1024 op, 345621708.00 ns, 337.5212 us/op
+WorkloadActual  32: 1024 op, 351257125.00 ns, 343.0245 us/op
+WorkloadActual  33: 1024 op, 339838833.00 ns, 331.8739 us/op
+WorkloadActual  34: 1024 op, 365359916.00 ns, 356.7968 us/op
+WorkloadActual  35: 1024 op, 364344125.00 ns, 355.8048 us/op
+WorkloadActual  36: 1024 op, 327545834.00 ns, 319.8690 us/op
+WorkloadActual  37: 1024 op, 340607958.00 ns, 332.6250 us/op
+WorkloadActual  38: 1024 op, 348819708.00 ns, 340.6442 us/op
+WorkloadActual  39: 1024 op, 476681875.00 ns, 465.5096 us/op
+WorkloadActual  40: 1024 op, 376026042.00 ns, 367.2129 us/op
+WorkloadActual  41: 1024 op, 331558333.00 ns, 323.7874 us/op
+WorkloadActual  42: 1024 op, 356195416.00 ns, 347.8471 us/op
+WorkloadActual  43: 1024 op, 356850625.00 ns, 348.4869 us/op
+WorkloadActual  44: 1024 op, 329493291.00 ns, 321.7708 us/op
+WorkloadActual  45: 1024 op, 338052583.00 ns, 330.1295 us/op
+WorkloadActual  46: 1024 op, 365310958.00 ns, 356.7490 us/op
+WorkloadActual  47: 1024 op, 327049375.00 ns, 319.3842 us/op
+WorkloadActual  48: 1024 op, 333937458.00 ns, 326.1108 us/op
+WorkloadActual  49: 1024 op, 378505500.00 ns, 369.6343 us/op
+WorkloadActual  50: 1024 op, 469046708.00 ns, 458.0534 us/op
+WorkloadActual  51: 1024 op, 351584000.00 ns, 343.3438 us/op
+WorkloadActual  52: 1024 op, 341842041.00 ns, 333.8301 us/op
+WorkloadActual  53: 1024 op, 334909000.00 ns, 327.0596 us/op
+WorkloadActual  54: 1024 op, 329843750.00 ns, 322.1130 us/op
+WorkloadActual  55: 1024 op, 358340958.00 ns, 349.9423 us/op
+WorkloadActual  56: 1024 op, 356475833.00 ns, 348.1209 us/op
+
+// AfterActualRun
+WorkloadResult   1: 1024 op, 338907083.00 ns, 330.9639 us/op
+WorkloadResult   2: 1024 op, 353986208.00 ns, 345.6897 us/op
+WorkloadResult   3: 1024 op, 343594542.00 ns, 335.5415 us/op
+WorkloadResult   4: 1024 op, 362690542.00 ns, 354.1900 us/op
+WorkloadResult   5: 1024 op, 354830500.00 ns, 346.5142 us/op
+WorkloadResult   6: 1024 op, 351851375.00 ns, 343.6049 us/op
+WorkloadResult   7: 1024 op, 364190584.00 ns, 355.6549 us/op
+WorkloadResult   8: 1024 op, 377773000.00 ns, 368.9189 us/op
+WorkloadResult   9: 1024 op, 358274333.00 ns, 349.8773 us/op
+WorkloadResult  10: 1024 op, 345988416.00 ns, 337.8793 us/op
+WorkloadResult  11: 1024 op, 337405833.00 ns, 329.4979 us/op
+WorkloadResult  12: 1024 op, 346189708.00 ns, 338.0759 us/op
+WorkloadResult  13: 1024 op, 360193708.00 ns, 351.7517 us/op
+WorkloadResult  14: 1024 op, 339861042.00 ns, 331.8955 us/op
+WorkloadResult  15: 1024 op, 343414500.00 ns, 335.3657 us/op
+WorkloadResult  16: 1024 op, 341591333.00 ns, 333.5853 us/op
+WorkloadResult  17: 1024 op, 338867958.00 ns, 330.9257 us/op
+WorkloadResult  18: 1024 op, 360833292.00 ns, 352.3763 us/op
+WorkloadResult  19: 1024 op, 364987709.00 ns, 356.4333 us/op
+WorkloadResult  20: 1024 op, 326147625.00 ns, 318.5035 us/op
+WorkloadResult  21: 1024 op, 351897833.00 ns, 343.6502 us/op
+WorkloadResult  22: 1024 op, 345418000.00 ns, 337.3223 us/op
+WorkloadResult  23: 1024 op, 337061375.00 ns, 329.1615 us/op
+WorkloadResult  24: 1024 op, 367741875.00 ns, 359.1229 us/op
+WorkloadResult  25: 1024 op, 332998458.00 ns, 325.1938 us/op
+WorkloadResult  26: 1024 op, 345619333.00 ns, 337.5189 us/op
+WorkloadResult  27: 1024 op, 351254750.00 ns, 343.0222 us/op
+WorkloadResult  28: 1024 op, 339836458.00 ns, 331.8715 us/op
+WorkloadResult  29: 1024 op, 365357541.00 ns, 356.7945 us/op
+WorkloadResult  30: 1024 op, 364341750.00 ns, 355.8025 us/op
+WorkloadResult  31: 1024 op, 327543459.00 ns, 319.8667 us/op
+WorkloadResult  32: 1024 op, 340605583.00 ns, 332.6226 us/op
+WorkloadResult  33: 1024 op, 348817333.00 ns, 340.6419 us/op
+WorkloadResult  34: 1024 op, 376023667.00 ns, 367.2106 us/op
+WorkloadResult  35: 1024 op, 331555958.00 ns, 323.7851 us/op
+WorkloadResult  36: 1024 op, 356193041.00 ns, 347.8448 us/op
+WorkloadResult  37: 1024 op, 356848250.00 ns, 348.4846 us/op
+WorkloadResult  38: 1024 op, 329490916.00 ns, 321.7685 us/op
+WorkloadResult  39: 1024 op, 338050208.00 ns, 330.1272 us/op
+WorkloadResult  40: 1024 op, 365308583.00 ns, 356.7467 us/op
+WorkloadResult  41: 1024 op, 327047000.00 ns, 319.3818 us/op
+WorkloadResult  42: 1024 op, 333935083.00 ns, 326.1085 us/op
+WorkloadResult  43: 1024 op, 378503125.00 ns, 369.6320 us/op
+WorkloadResult  44: 1024 op, 351581625.00 ns, 343.3414 us/op
+WorkloadResult  45: 1024 op, 341839666.00 ns, 333.8278 us/op
+WorkloadResult  46: 1024 op, 334906625.00 ns, 327.0573 us/op
+WorkloadResult  47: 1024 op, 329841375.00 ns, 322.1107 us/op
+WorkloadResult  48: 1024 op, 358338583.00 ns, 349.9400 us/op
+WorkloadResult  49: 1024 op, 356473458.00 ns, 348.1186 us/op
+// GC:  0 0 0 4381328 1024
+// Threading:  4120 2 1024
+
+// AfterAll
+// Benchmark Process 5963 has exited with code 0.
+
+Mean = 340.721 μs, StdErr = 1.927 μs (0.57%), N = 49, StdDev = 13.492 μs
+Min = 318.504 μs, Q1 = 330.926 μs, Median = 338.076 μs, Q3 = 349.940 μs, Max = 369.632 μs
+IQR = 19.014 μs, LowerFence = 302.404 μs, UpperFence = 378.461 μs
+ConfidenceInterval = [333.965 μs; 347.477 μs] (CI 99.9%), Margin = 6.756 μs (1.98% of Mean)
+Skewness = 0.27, Kurtosis = 2.17, MValue = 2.88
+
+// ** Remained 5 (83,3%) benchmark(s) to run. Estimated finish 2025-02-20 20:00 (0h 2m from now) **
+// **************************
+// Benchmark: EndpointBenchmarks.GetCategoryById: DefaultJob
+// *** Execute ***
+// Launch: 1 / 1
+// Execute: dotnet 296d584c-c439-43ac-bb75-c72493ae4d06.dll --anonymousPipes 111 112 --benchmarkName EndpointBenchmarks.GetCategoryById --job Default --benchmarkId 1 in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/296d584c-c439-43ac-bb75-c72493ae4d06/bin/Release/net8.0
+// Failed to set up high priority (Permission denied). In order to run benchmarks with high priority, make sure you have the right permissions.
+// BeforeAnythingElse
+
+// Benchmark Process Environment Information:
+// BenchmarkDotNet v0.14.0
+// Runtime=.NET 8.0.3 (8.0.324.11423), Arm64 RyuJIT AdvSIMD
+// GC=Concurrent Workstation
+// HardwareIntrinsics=AdvSIMD,AES,CRC32,DP,RDM,SHA1,SHA256 VectorSize=128
+// Job: DefaultJob
+
+
+System.Reflection.TargetInvocationException: Exception has been thrown by the target of an invocation.
+ ---> System.Net.Http.HttpRequestException: Response status code does not indicate success: 409 (Conflict).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at EndpointBenchmarks.GlobalSetup() in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/EndpointBenchmarks.cs:line 31
+   at BenchmarkDotNet.Helpers.AwaitHelper.GetResult(Task task)
+   at BenchmarkDotNet.Autogenerated.Runnable_1.<.ctor>b__3_0() in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/296d584c-c439-43ac-bb75-c72493ae4d06/296d584c-c439-43ac-bb75-c72493ae4d06.notcs:line 384
+   at BenchmarkDotNet.Engines.EngineFactory.CreateReadyToRun(EngineParameters engineParameters)
+   at BenchmarkDotNet.Autogenerated.Runnable_1.Run(IHost host, String benchmarkName) in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/296d584c-c439-43ac-bb75-c72493ae4d06/296d584c-c439-43ac-bb75-c72493ae4d06.notcs:line 368
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)
+   --- End of inner exception stack trace ---
+   at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)
+   at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at BenchmarkDotNet.Autogenerated.UniqueProgramName.AfterAssemblyLoadingAttached(String[] args) in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/296d584c-c439-43ac-bb75-c72493ae4d06/296d584c-c439-43ac-bb75-c72493ae4d06.notcs:line 57
+// AfterAll
+No Workload Results were obtained from the run.
+// Benchmark Process 5970 has exited with code 255.
+
+// ** Remained 4 (66,7%) benchmark(s) to run. Estimated finish 2025-02-20 19:59 (0h 1m from now) **
+// **************************
+// Benchmark: EndpointBenchmarks.GetCategoryByName: DefaultJob
+// *** Execute ***
+// Launch: 1 / 1
+// Execute: dotnet 296d584c-c439-43ac-bb75-c72493ae4d06.dll --anonymousPipes 111 112 --benchmarkName EndpointBenchmarks.GetCategoryByName --job Default --benchmarkId 2 in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/296d584c-c439-43ac-bb75-c72493ae4d06/bin/Release/net8.0
+// Failed to set up high priority (Permission denied). In order to run benchmarks with high priority, make sure you have the right permissions.
+// BeforeAnythingElse
+
+// Benchmark Process Environment Information:
+// BenchmarkDotNet v0.14.0
+// Runtime=.NET 8.0.3 (8.0.324.11423), Arm64 RyuJIT AdvSIMD
+// GC=Concurrent Workstation
+// HardwareIntrinsics=AdvSIMD,AES,CRC32,DP,RDM,SHA1,SHA256 VectorSize=128
+// Job: DefaultJob
+
+
+System.Reflection.TargetInvocationException: Exception has been thrown by the target of an invocation.
+ ---> System.Net.Http.HttpRequestException: Response status code does not indicate success: 409 (Conflict).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at EndpointBenchmarks.GlobalSetup() in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/EndpointBenchmarks.cs:line 31
+   at BenchmarkDotNet.Helpers.AwaitHelper.GetResult(Task task)
+   at BenchmarkDotNet.Autogenerated.Runnable_2.<.ctor>b__3_0() in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/296d584c-c439-43ac-bb75-c72493ae4d06/296d584c-c439-43ac-bb75-c72493ae4d06.notcs:line 576
+   at BenchmarkDotNet.Engines.EngineFactory.CreateReadyToRun(EngineParameters engineParameters)
+   at BenchmarkDotNet.Autogenerated.Runnable_2.Run(IHost host, String benchmarkName) in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/296d584c-c439-43ac-bb75-c72493ae4d06/296d584c-c439-43ac-bb75-c72493ae4d06.notcs:line 560
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)
+   --- End of inner exception stack trace ---
+   at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)
+   at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at BenchmarkDotNet.Autogenerated.UniqueProgramName.AfterAssemblyLoadingAttached(String[] args) in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/296d584c-c439-43ac-bb75-c72493ae4d06/296d584c-c439-43ac-bb75-c72493ae4d06.notcs:line 57
+// AfterAll
+No Workload Results were obtained from the run.
+// Benchmark Process 5971 has exited with code 255.
+
+// ** Remained 3 (50,0%) benchmark(s) to run. Estimated finish 2025-02-20 19:58 (0h 0m from now) **
+// **************************
+// Benchmark: EndpointBenchmarks.CreateCategory: DefaultJob
+// *** Execute ***
+// Launch: 1 / 1
+// Execute: dotnet 296d584c-c439-43ac-bb75-c72493ae4d06.dll --anonymousPipes 111 112 --benchmarkName EndpointBenchmarks.CreateCategory --job Default --benchmarkId 3 in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/296d584c-c439-43ac-bb75-c72493ae4d06/bin/Release/net8.0
+// Failed to set up high priority (Permission denied). In order to run benchmarks with high priority, make sure you have the right permissions.
+// BeforeAnythingElse
+
+// Benchmark Process Environment Information:
+// BenchmarkDotNet v0.14.0
+// Runtime=.NET 8.0.3 (8.0.324.11423), Arm64 RyuJIT AdvSIMD
+// GC=Concurrent Workstation
+// HardwareIntrinsics=AdvSIMD,AES,CRC32,DP,RDM,SHA1,SHA256 VectorSize=128
+// Job: DefaultJob
+
+
+System.Reflection.TargetInvocationException: Exception has been thrown by the target of an invocation.
+ ---> System.Net.Http.HttpRequestException: Response status code does not indicate success: 409 (Conflict).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at EndpointBenchmarks.GlobalSetup() in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/EndpointBenchmarks.cs:line 31
+   at BenchmarkDotNet.Helpers.AwaitHelper.GetResult(Task task)
+   at BenchmarkDotNet.Autogenerated.Runnable_3.<.ctor>b__3_0() in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/296d584c-c439-43ac-bb75-c72493ae4d06/296d584c-c439-43ac-bb75-c72493ae4d06.notcs:line 768
+   at BenchmarkDotNet.Engines.EngineFactory.CreateReadyToRun(EngineParameters engineParameters)
+   at BenchmarkDotNet.Autogenerated.Runnable_3.Run(IHost host, String benchmarkName) in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/296d584c-c439-43ac-bb75-c72493ae4d06/296d584c-c439-43ac-bb75-c72493ae4d06.notcs:line 752
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)
+   --- End of inner exception stack trace ---
+   at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)
+   at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at BenchmarkDotNet.Autogenerated.UniqueProgramName.AfterAssemblyLoadingAttached(String[] args) in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/296d584c-c439-43ac-bb75-c72493ae4d06/296d584c-c439-43ac-bb75-c72493ae4d06.notcs:line 57
+// AfterAll
+No Workload Results were obtained from the run.
+// Benchmark Process 5972 has exited with code 255.
+
+// ** Remained 2 (33,3%) benchmark(s) to run. Estimated finish 2025-02-20 19:58 (0h 0m from now) **
+// **************************
+// Benchmark: EndpointBenchmarks.UpdateCategory: DefaultJob
+// *** Execute ***
+// Launch: 1 / 1
+// Execute: dotnet 296d584c-c439-43ac-bb75-c72493ae4d06.dll --anonymousPipes 111 112 --benchmarkName EndpointBenchmarks.UpdateCategory --job Default --benchmarkId 4 in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/296d584c-c439-43ac-bb75-c72493ae4d06/bin/Release/net8.0
+// Failed to set up high priority (Permission denied). In order to run benchmarks with high priority, make sure you have the right permissions.
+// BeforeAnythingElse
+
+// Benchmark Process Environment Information:
+// BenchmarkDotNet v0.14.0
+// Runtime=.NET 8.0.3 (8.0.324.11423), Arm64 RyuJIT AdvSIMD
+// GC=Concurrent Workstation
+// HardwareIntrinsics=AdvSIMD,AES,CRC32,DP,RDM,SHA1,SHA256 VectorSize=128
+// Job: DefaultJob
+
+
+System.Reflection.TargetInvocationException: Exception has been thrown by the target of an invocation.
+ ---> System.Net.Http.HttpRequestException: Response status code does not indicate success: 409 (Conflict).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at EndpointBenchmarks.GlobalSetup() in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/EndpointBenchmarks.cs:line 31
+   at BenchmarkDotNet.Helpers.AwaitHelper.GetResult(Task task)
+   at BenchmarkDotNet.Autogenerated.Runnable_4.<.ctor>b__3_0() in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/296d584c-c439-43ac-bb75-c72493ae4d06/296d584c-c439-43ac-bb75-c72493ae4d06.notcs:line 960
+   at BenchmarkDotNet.Engines.EngineFactory.CreateReadyToRun(EngineParameters engineParameters)
+   at BenchmarkDotNet.Autogenerated.Runnable_4.Run(IHost host, String benchmarkName) in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/296d584c-c439-43ac-bb75-c72493ae4d06/296d584c-c439-43ac-bb75-c72493ae4d06.notcs:line 944
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)
+   --- End of inner exception stack trace ---
+   at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)
+   at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at BenchmarkDotNet.Autogenerated.UniqueProgramName.AfterAssemblyLoadingAttached(String[] args) in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/296d584c-c439-43ac-bb75-c72493ae4d06/296d584c-c439-43ac-bb75-c72493ae4d06.notcs:line 57
+// AfterAll
+No Workload Results were obtained from the run.
+// Benchmark Process 5973 has exited with code 255.
+
+// ** Remained 1 (16,7%) benchmark(s) to run. Estimated finish 2025-02-20 19:58 (0h 0m from now) **
+// **************************
+// Benchmark: EndpointBenchmarks.DeleteCategory: Job-RPQZRT(InvocationCount=1, UnrollFactor=1)
+// *** Execute ***
+// Launch: 1 / 1
+// Execute: dotnet 296d584c-c439-43ac-bb75-c72493ae4d06.dll --anonymousPipes 111 112 --benchmarkName EndpointBenchmarks.DeleteCategory --job "InvocationCount=1, UnrollFactor=1" --benchmarkId 5 in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/296d584c-c439-43ac-bb75-c72493ae4d06/bin/Release/net8.0
+// Failed to set up high priority (Permission denied). In order to run benchmarks with high priority, make sure you have the right permissions.
+// BeforeAnythingElse
+
+// Benchmark Process Environment Information:
+// BenchmarkDotNet v0.14.0
+// Runtime=.NET 8.0.3 (8.0.324.11423), Arm64 RyuJIT AdvSIMD
+// GC=Concurrent Workstation
+// HardwareIntrinsics=AdvSIMD,AES,CRC32,DP,RDM,SHA1,SHA256 VectorSize=128
+// Job: Job-UNGJVL(InvocationCount=1, UnrollFactor=1)
+
+
+System.Reflection.TargetInvocationException: Exception has been thrown by the target of an invocation.
+ ---> System.Net.Http.HttpRequestException: Response status code does not indicate success: 409 (Conflict).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at EndpointBenchmarks.GlobalSetup() in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/EndpointBenchmarks.cs:line 31
+   at BenchmarkDotNet.Helpers.AwaitHelper.GetResult(Task task)
+   at BenchmarkDotNet.Autogenerated.Runnable_5.<.ctor>b__3_0() in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/296d584c-c439-43ac-bb75-c72493ae4d06/296d584c-c439-43ac-bb75-c72493ae4d06.notcs:line 1153
+   at BenchmarkDotNet.Engines.EngineFactory.CreateReadyToRun(EngineParameters engineParameters)
+   at BenchmarkDotNet.Autogenerated.Runnable_5.Run(IHost host, String benchmarkName) in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/296d584c-c439-43ac-bb75-c72493ae4d06/296d584c-c439-43ac-bb75-c72493ae4d06.notcs:line 1137
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)
+   --- End of inner exception stack trace ---
+   at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)
+   at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at BenchmarkDotNet.Autogenerated.UniqueProgramName.AfterAssemblyLoadingAttached(String[] args) in /Users/emanuelmorais/GIT/OrgaNestApi/Benchmarks/bin/Release/net8.0/296d584c-c439-43ac-bb75-c72493ae4d06/296d584c-c439-43ac-bb75-c72493ae4d06.notcs:line 57
+// AfterAll
+No Workload Results were obtained from the run.
+// Benchmark Process 5974 has exited with code 255.
+
+// ** Remained 0 (0,0%) benchmark(s) to run. Estimated finish 2025-02-20 19:58 (0h 0m from now) **
+// ***** BenchmarkRunner: Finish  *****
+
+// * Export *
+  BenchmarkDotNet.Artifacts/results/EndpointBenchmarks-report.csv
+  BenchmarkDotNet.Artifacts/results/EndpointBenchmarks-report-github.md
+  BenchmarkDotNet.Artifacts/results/EndpointBenchmarks-report.html
+
+// * Detailed results *
+EndpointBenchmarks.GetAllCategories: DefaultJob
+Runtime = .NET 8.0.3 (8.0.324.11423), Arm64 RyuJIT AdvSIMD; GC = Concurrent Workstation
+Mean = 340.721 μs, StdErr = 1.927 μs (0.57%), N = 49, StdDev = 13.492 μs
+Min = 318.504 μs, Q1 = 330.926 μs, Median = 338.076 μs, Q3 = 349.940 μs, Max = 369.632 μs
+IQR = 19.014 μs, LowerFence = 302.404 μs, UpperFence = 378.461 μs
+ConfidenceInterval = [333.965 μs; 347.477 μs] (CI 99.9%), Margin = 6.756 μs (1.98% of Mean)
+Skewness = 0.27, Kurtosis = 2.17, MValue = 2.88
+-------------------- Histogram --------------------
+[317.941 μs ; 328.779 μs) | @@@@@@@@@
+[328.779 μs ; 338.458 μs) | @@@@@@@@@@@@@@@@
+[338.458 μs ; 347.480 μs) | @@@@@@@
+[347.480 μs ; 363.582 μs) | @@@@@@@@@@@@@@
+[363.582 μs ; 374.471 μs) | @@@
+---------------------------------------------------
+
+EndpointBenchmarks.GetCategoryById: DefaultJob
+Runtime = .NET 8.0.3 (8.0.324.11423), Arm64 RyuJIT AdvSIMD; GC = Concurrent Workstation
+There are not any results runs
+
+EndpointBenchmarks.GetCategoryByName: DefaultJob
+Runtime = .NET 8.0.3 (8.0.324.11423), Arm64 RyuJIT AdvSIMD; GC = Concurrent Workstation
+There are not any results runs
+
+EndpointBenchmarks.CreateCategory: DefaultJob
+Runtime = .NET 8.0.3 (8.0.324.11423), Arm64 RyuJIT AdvSIMD; GC = Concurrent Workstation
+There are not any results runs
+
+EndpointBenchmarks.UpdateCategory: DefaultJob
+Runtime = .NET 8.0.3 (8.0.324.11423), Arm64 RyuJIT AdvSIMD; GC = Concurrent Workstation
+There are not any results runs
+
+EndpointBenchmarks.DeleteCategory: Job-RPQZRT(InvocationCount=1, UnrollFactor=1)
+Runtime = .NET 8.0.3 (8.0.324.11423), Arm64 RyuJIT AdvSIMD; GC = Concurrent Workstation
+There are not any results runs
+
+// * Summary *
+
+BenchmarkDotNet v0.14.0, macOS Sequoia 15.3.1 (24D70) [Darwin 24.3.0]
+Apple M1, 1 CPU, 8 logical and 8 physical cores
+.NET SDK 8.0.202
+  [Host]     : .NET 8.0.3 (8.0.324.11423), Arm64 RyuJIT AdvSIMD
+  DefaultJob : .NET 8.0.3 (8.0.324.11423), Arm64 RyuJIT AdvSIMD
+  Job-RPQZRT : .NET 8.0.3 (8.0.324.11423), Arm64 RyuJIT AdvSIMD
+
+
+| Method            | Job        | InvocationCount | UnrollFactor | Mean     | Error   | StdDev   | Allocated |
+|------------------ |----------- |---------------- |------------- |---------:|--------:|---------:|----------:|
+| GetAllCategories  | DefaultJob | Default         | 16           | 340.7 μs | 6.76 μs | 13.49 μs |   4.18 KB |
+| GetCategoryById   | DefaultJob | Default         | 16           |       NA |      NA |       NA |        NA |
+| GetCategoryByName | DefaultJob | Default         | 16           |       NA |      NA |       NA |        NA |
+| CreateCategory    | DefaultJob | Default         | 16           |       NA |      NA |       NA |        NA |
+| UpdateCategory    | DefaultJob | Default         | 16           |       NA |      NA |       NA |        NA |
+| DeleteCategory    | Job-RPQZRT | 1               | 1            |       NA |      NA |       NA |        NA |
+
+Benchmarks with issues:
+  EndpointBenchmarks.GetCategoryById: DefaultJob
+  EndpointBenchmarks.GetCategoryByName: DefaultJob
+  EndpointBenchmarks.CreateCategory: DefaultJob
+  EndpointBenchmarks.UpdateCategory: DefaultJob
+  EndpointBenchmarks.DeleteCategory: Job-RPQZRT(InvocationCount=1, UnrollFactor=1)
+
+// * Warnings *
+MultimodalDistribution
+  EndpointBenchmarks.GetAllCategories: Default -> It seems that the distribution can have several modes (mValue = 2.88)
+
+// * Hints *
+Outliers
+  EndpointBenchmarks.GetAllCategories: Default -> 7 outliers were removed (452.29 μs..775.47 μs)
+
+// * Legends *
+  Mean      : Arithmetic mean of all measurements
+  Error     : Half of 99.9% confidence interval
+  StdDev    : Standard deviation of all measurements
+  Allocated : Allocated memory per single operation (managed only, inclusive, 1KB = 1024B)
+  1 μs      : 1 Microsecond (0.000001 sec)
+
+// * Diagnostic Output - MemoryDiagnoser *
+
+
+// ***** BenchmarkRunner: End *****
+Run time: 00:00:30 (30.91 sec), executed benchmarks: 6
+
+Global total time: 00:00:35 (35.68 sec), executed benchmarks: 6
+// * Artifacts cleanup *
+Artifacts cleanup is finished
