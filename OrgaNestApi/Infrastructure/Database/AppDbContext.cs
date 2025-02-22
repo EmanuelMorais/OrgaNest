@@ -1,6 +1,6 @@
 namespace OrgaNestApi.Infrastructure.Database;
 
-using OrgaNestApi.Common.Domain;
+using Common.Domain;
 using Microsoft.EntityFrameworkCore;
 
 public class AppDbContext : DbContext

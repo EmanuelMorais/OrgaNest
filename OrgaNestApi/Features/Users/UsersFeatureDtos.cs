@@ -1,7 +1,3 @@
-using OrgaNestApi.Common.Domain;
-using OrgaNestApi.Features.Expenses;
-using OrgaNestApi.Features.Shopping;
-
 namespace OrgaNestApi.Features.Users;
 
 // DTO for creating a user
@@ -52,7 +48,7 @@ public class UserFamilyDto
 {
     public Guid UserId { get; set; }
     public Guid FamilyId { get; set; }
-    public string FamilyName { get; set; } = string.Empty;
+    public string? FamilyName { get; set; } = string.Empty;
 }
 
 public class ShoppingListDto
@@ -60,14 +56,14 @@ public class ShoppingListDto
     public Guid Id { get; set; }
     
     public Guid UserId { get; set; }
-    public string Name { get; set; }
+    public string? Name { get; set; } = string.Empty;
     public List<ShoppingItemDto> Items { get; set; } = new();
 }
 
 public class ShoppingItemDto
 {
     public Guid Id { get; set; }
-    public string Name { get; set; }
+    public string Name { get; set; } = string.Empty;
     public int Quantity { get; set; }
     public bool IsPurchased { get; set; }
 }
