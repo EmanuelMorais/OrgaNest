@@ -4,7 +4,7 @@ namespace OrgaNestApi.Features.Users;
 
 public interface IUserService
 {
-    Task<User> CreateUserAsync(string name, string email);
-    Task<User?> GetUserByIdAsync(Guid userId);
+    Task<UserDto> CreateUserAsync(string name, string email);
+    Task<UserDto?> GetUserByIdAsync(Guid userId);
     Task<List<User>> GetAllUsersAsync();
 }

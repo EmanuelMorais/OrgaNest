@@ -67,7 +67,7 @@ public class UserService : IUserService
     }
 
     // Create a new user
-    public async Task<User> CreateUserAsync(string name, string email)
+    public async Task<UserDto> CreateUserAsync(string name, string email)
     {
         var user = new User
         {
@@ -77,14 +77,16 @@ public class UserService : IUserService
 
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
-        return user;
+        return user.ToDto();
     }
 
     // Get a user by ID
-    public async Task<User?> GetUserByIdAsync(Guid userId)
+    public async Task<UserDto?> GetUserByIdAsync(Guid userId)
     {
-        return await _context.Users
+        var user = await _context.Users
             .FirstOrDefaultAsync(u => u.Id == userId);
+        
+        return user?.ToDto();
     }
 
     // Get all users

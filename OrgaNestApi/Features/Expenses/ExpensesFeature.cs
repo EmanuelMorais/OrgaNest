@@ -104,7 +104,7 @@ public class ExpenseController : ControllerBase
             return NotFound($"Expense with ID {expenseId} not found.");
         }
 
-        return NoContent(); // 204 No Content
+        return NoContent();
     }    
 }
 
@@ -120,7 +120,7 @@ public class ExpenseService: IExpenseService
     /// <summary>
     /// Creates a new expense with shared contributions.
     /// </summary>
-    public async Task<Expense> CreateExpenseAsync(Guid userId, Guid? familyId, string categoryName, decimal amount, DateTime date, List<(Guid userId, decimal percentage)> shares)
+    public async Task<ExpenseDto> CreateExpenseAsync(Guid userId, Guid? familyId, string categoryName, decimal amount, DateTime date, List<(Guid userId, decimal percentage)> shares)
     {
         if (shares.Any() && shares.Sum(s => s.percentage) != 1.0m)
         {
@@ -135,7 +135,7 @@ public class ExpenseService: IExpenseService
             throw new ArgumentException($"Category '{categoryName}' does not exist.");
         }
 
-        var expense = new ExpenseBuilder()
+        var expense = new Expense.Builder()
             .SetUserId(userId)
             .SetFamilyId(familyId)
             .SetCategory(category)
@@ -146,39 +146,56 @@ public class ExpenseService: IExpenseService
 
         _context.Expenses.Add(expense);
         await _context.SaveChangesAsync();
-        return expense;
+        return expense.ToDto();
     }
 
     /// <summary>
     /// Retrieves all expenses for a user.
     /// </summary>
-    public async Task<List<Expense>> GetUserExpensesAsync(Guid userId)
+    public async Task<List<ExpenseDto>> GetUserExpensesAsync(Guid userId)
     {
+        var userExists = await _context.Users.AnyAsync(u => u.Id == userId);
+        
+        if (!userExists)
+        {
+            throw new InvalidOperationException($"User with id {userId} does not exist.");
+        }
+        
         return await _context.Expenses
             .Include(e => e.ExpenseShares)
-            .Where(e => e.ExpenseShares.Any(es => es.UserId == userId))
+            .Where(e => e.UserId == userId || e.ExpenseShares.Any(es => es.UserId == userId))
+            .Select(e => e.ToDto())
             .ToListAsync();
     }
 
     /// <summary>
     /// Retrieves all expenses for a family.
     /// </summary>
-    public async Task<List<Expense>> GetFamilyExpensesAsync(Guid familyId)
+    public async Task<List<ExpenseDto>> GetFamilyExpensesAsync(Guid familyId)
     {
+        var familyExists = await _context.Families.AnyAsync(u => u.Id == familyId);
+        
+        if (!familyExists)
+        {
+            throw new InvalidOperationException($"Family with id {familyId} does not exist.");
+        }
+        
         return await _context.Expenses
             .Where(e => e.FamilyId == familyId)
             .Include(e => e.ExpenseShares)
+            .Select(e => e.ToDto())
             .ToListAsync();
     }
     
-    public async Task<Expense?> GetExpenseByIdAsync(Guid expenseId)
+    public async Task<ExpenseDto?> GetExpenseByIdAsync(Guid expenseId)
     {
         return await _context.Expenses
             .Include(e => e.ExpenseShares)
+            .Select(e => e.ToDto())
             .FirstOrDefaultAsync(e => e.Id == expenseId);
     }
     
-    public async Task<Expense?> UpdateExpenseAsync(Guid expenseId, string categoryName, decimal amount, DateTime date, List<(Guid userId, decimal percentage)> shares)
+    public async Task<ExpenseDto?> UpdateExpenseAsync(Guid expenseId, string categoryName, decimal amount, DateTime date, List<(Guid userId, decimal percentage)> shares)
     {
         var existingExpense = await _context.Expenses
             .Include(e => e.ExpenseShares)
@@ -186,7 +203,7 @@ public class ExpenseService: IExpenseService
 
         if (existingExpense == null)
         {
-            return null;
+            throw new ArgumentException("Expense not found");
         }
 
         if (shares.Any() && shares.Sum(s => s.percentage) != 1.0m)
@@ -203,7 +220,7 @@ public class ExpenseService: IExpenseService
         }
 
         // Create a new Expense instance with the updated values
-        var updatedExpense = new ExpenseBuilder()
+        var updatedExpense = Expense.CreateBuilder()
             .SetUserId(existingExpense.UserId)
             .SetFamilyId(existingExpense.FamilyId)
             .SetCategory(category)
@@ -220,7 +237,7 @@ public class ExpenseService: IExpenseService
         _context.Expenses.Add(updatedExpense);
         await _context.SaveChangesAsync();
     
-        return updatedExpense;
+        return updatedExpense.ToDto();
     }
     
     public async Task<bool> DeleteExpenseAsync(Guid expenseId)

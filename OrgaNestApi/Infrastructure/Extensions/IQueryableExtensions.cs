@@ -16,13 +16,12 @@ public static class QueryableExtensions
         {
             PageNumber = pageNumber,
             PageSize = pageSize,
-            TotalRecords = await query.CountAsync(cancellationToken)
+            TotalRecords = await query.CountAsync(cancellationToken),
+            Data = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync(cancellationToken)
         };
-
-        result.Data = await query
-            .Skip((pageNumber - 1) * pageSize)
-            .Take(pageSize)
-            .ToListAsync(cancellationToken);
 
         return result;
     }
