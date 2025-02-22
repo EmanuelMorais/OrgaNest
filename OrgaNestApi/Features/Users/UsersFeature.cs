@@ -16,7 +16,9 @@ public class UserController : ControllerBase
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IUserService _userService;
 
-    public UserController(IUserService userService, RoleManager<IdentityRole> roleManager,
+    public UserController(
+        IUserService userService,
+        RoleManager<IdentityRole> roleManager,
         UserManager<ApplicationUser> userManager)
     {
         _userService = userService;
@@ -39,7 +41,7 @@ public class UserController : ControllerBase
         if (!result.Succeeded)
             return BadRequest(result.Errors);
 
-        var user = await _userService.CreateUserAsync(request.Name, request.Email);
+        var user = await _userService.CreateUserAsync(request);
         var roleName = Roles.Default.ToString();
         var roleExist = await _roleManager.RoleExistsAsync(roleName);
 
@@ -119,12 +121,12 @@ public class UserService : IUserService
     }
 
     // Create a new user
-    public async Task<UserDto> CreateUserAsync(string name, string email)
+    public async Task<UserDto> CreateUserAsync(CreateUserDto request)
     {
         var user = new User
         {
-            Name = name,
-            Email = email
+            Name = request.Name,
+            Email = request.Email
         };
 
         _context.Users.Add(user);

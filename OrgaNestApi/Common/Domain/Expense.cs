@@ -33,22 +33,12 @@ public partial class Expense
     public Category Category { get; init; }
     public decimal Amount { get; init; }
     public DateTime Date { get; init; }
-    public List<ExpenseShare> ExpenseShares { get; init; } = new();
+    public ICollection<ExpenseShare> ExpenseShares { get; init; } = [];
 
     public static Builder CreateBuilder()
     {
         return new Builder();
     }
-
-    // public void AddShares(IEnumerable<ExpenseShare> shares)
-    // {
-    //     if (shares.Any() && shares.Sum(s => s.Percentage) != 1.0m)
-    //     {
-    //         throw new ArgumentException("Total share percentage must equal 100%.");
-    //     }
-    //
-    //     ExpenseShares.AddRange(shares);
-    // }
 
     public ExpenseDto ToDto()
     {

@@ -8,7 +8,7 @@ public class ShoppingList
     public string Name { get; set; } = string.Empty;
     public Guid UserId { get; set; }
     public User User { get; set; } = null!;
-    public List<ShoppingItem> Items { get; set; } = new();
+    public ICollection<ShoppingItem> Items { get; set; } = [];
 
     public ShoppingListDto ToDto()
     {

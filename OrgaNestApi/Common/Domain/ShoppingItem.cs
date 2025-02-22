@@ -1,4 +1,3 @@
-using System.Text.Json.Serialization;
 using OrgaNestApi.Features.Shopping;
 
 namespace OrgaNestApi.Common.Domain;
@@ -14,7 +13,7 @@ public class ShoppingItem
     public bool IsPurchased { get; set; }
     public Guid ShoppingListId { get; set; }
 
-    [JsonIgnore] public ShoppingList ShoppingList { get; set; } = null!;
+    public ShoppingList ShoppingList { get; set; } = new();
 
     public ShoppingItemDto ToDto()
     {
