@@ -8,12 +8,10 @@ namespace OrgaNestApi.Common.Domain;
 public class User
 {
     public Guid Id { get; set; } = Guid.NewGuid();
-    
-    [StringLength(100, MinimumLength = 1)]
-    public string Name { get; set; } = string.Empty;
-    
-    [StringLength(150)] 
-    public string Email { get; set; } = string.Empty;
+
+    [StringLength(100, MinimumLength = 1)] public string Name { get; set; } = string.Empty;
+
+    [StringLength(150)] public string Email { get; set; } = string.Empty;
 
     // Many-to-Many: A user can belong to multiple families
     public ICollection<UserFamily> UserFamilies { get; set; } = [];

@@ -9,8 +9,9 @@ Apple M1, 1 CPU, 8 logical and 8 physical cores
 
 
 ```
-| Method            | Job        | InvocationCount | UnrollFactor | Mean        | Error       | StdDev      | Median      | Gen0   | Allocated |
-|------------------ |----------- |---------------- |------------- |------------:|------------:|------------:|------------:|-------:|----------:|
+
+| Method            | Job        | InvocationCount | UnrollFactor |        Mean |       Error |      StdDev |      Median |   Gen0 | Allocated |
+|-------------------|------------|-----------------|--------------|------------:|------------:|------------:|------------:|-------:|----------:|
 | GetAllCategories  | DefaultJob | Default         | 16           |    360.0 μs |     6.86 μs |     7.04 μs |    361.7 μs |      - |    4.3 KB |
 | GetCategoryById   | DefaultJob | Default         | 16           |    392.1 μs |     7.83 μs |    11.73 μs |    392.2 μs |      - |   4.31 KB |
 | GetCategoryByName | DefaultJob | Default         | 16           |    413.0 μs |    11.76 μs |    32.98 μs |    403.4 μs | 0.4883 |   4.49 KB |

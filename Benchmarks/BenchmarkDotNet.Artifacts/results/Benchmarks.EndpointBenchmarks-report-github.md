@@ -7,9 +7,10 @@ Apple M1, 1 CPU, 8 logical and 8 physical cores
 
 
 ```
+
 | Method           | Mean | Error |
-|----------------- |-----:|------:|
+|------------------|-----:|------:|
 | GetAllCategories |   NA |    NA |
 
 Benchmarks with issues:
-  EndpointBenchmarks.GetAllCategories: DefaultJob
+EndpointBenchmarks.GetAllCategories: DefaultJob
