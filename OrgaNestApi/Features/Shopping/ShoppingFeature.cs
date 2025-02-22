@@ -37,7 +37,7 @@ public class ShoppingListController : ControllerBase
     public async Task<IActionResult> Create([FromBody] CreateShoppingListDto shoppingList)
     {
         var result = await _service.AddShoppingList(shoppingList);
-        
+
         return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
     }
 
@@ -48,7 +48,7 @@ public class ShoppingListController : ControllerBase
             return BadRequest("ID mismatch");
 
         await _service.UpdateShoppingList(shoppingList);
-        
+
         return NoContent();
     }
 
@@ -59,6 +59,7 @@ public class ShoppingListController : ControllerBase
         return NoContent();
     }
 }
+
 public class ShoppingListService : IShoppingListService
 {
     private readonly IShoppingListRepository _repository;
@@ -83,14 +84,14 @@ public class ShoppingListService : IShoppingListService
         var shoppingList = shoppingListDto.ToDomain();
 
         await _repository.AddAsync(shoppingList);
-        
+
         return shoppingList.ToDto();
     }
 
     public async Task UpdateShoppingList(UpdateShoppingListDto shoppingListDto)
     {
         var shoppingList = shoppingListDto.ToDomain();
-        
+
         await _repository.UpdateAsync(shoppingList);
     }
 
@@ -99,6 +100,7 @@ public class ShoppingListService : IShoppingListService
         await _repository.DeleteAsync(id);
     }
 }
+
 public class ShoppingListRepository : IShoppingListRepository
 {
     private readonly AppDbContext _context;

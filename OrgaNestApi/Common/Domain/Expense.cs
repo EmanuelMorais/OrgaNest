@@ -4,15 +4,15 @@ namespace OrgaNestApi.Common.Domain;
 
 public partial class Expense
 {
-    public static Builder CreateBuilder() => new Builder();
+    private Expense()
+    {
+    }
 
-    private Expense() { }
-    
     public Expense(
-        Guid userId, 
-        Guid? familyId, 
-        Category category, 
-        decimal amount, 
+        Guid userId,
+        Guid? familyId,
+        Category category,
+        decimal amount,
         DateTime date,
         List<ExpenseShare> shares)
     {
@@ -23,7 +23,7 @@ public partial class Expense
         Date = date;
         ExpenseShares = shares;
     }
-    
+
     public Guid Id { get; init; } = Guid.NewGuid();
     public Guid UserId { get; init; }
     public User User { get; init; } = null!;
@@ -34,6 +34,11 @@ public partial class Expense
     public decimal Amount { get; init; }
     public DateTime Date { get; init; }
     public List<ExpenseShare> ExpenseShares { get; init; } = new();
+
+    public static Builder CreateBuilder()
+    {
+        return new Builder();
+    }
 
     // public void AddShares(IEnumerable<ExpenseShare> shares)
     // {
@@ -49,13 +54,13 @@ public partial class Expense
     {
         return new ExpenseDto
         {
-            Id = this.Id,
-            UserId = this.UserId,
-            FamilyId = this.FamilyId,
-            Category = this.Category?.Name,
-            Amount = this.Amount,
-            Date = this.Date,
-            Shares = this.ExpenseShares.Select(e => e.ToDto()).ToList()
+            Id = Id,
+            UserId = UserId,
+            FamilyId = FamilyId,
+            Category = Category?.Name,
+            Amount = Amount,
+            Date = Date,
+            Shares = ExpenseShares.Select(e => e.ToDto()).ToList()
         };
     }
 }
@@ -64,12 +69,12 @@ public partial class Expense
 {
     public class Builder
     {
-        private Guid _userId;
-        private Guid? _familyId;
-        private Category _category;
+        private readonly List<ExpenseShare> _expenseShares;
         private decimal _amount;
+        private Category _category;
         private DateTime _date;
-        private List<ExpenseShare> _expenseShares;
+        private Guid? _familyId;
+        private Guid _userId;
 
         public Builder()
         {
@@ -110,18 +115,14 @@ public partial class Expense
         public Builder AddExpenseShares(IEnumerable<(Guid userId, decimal percentage)> shares)
         {
             if (shares.Any() && shares.Sum(s => s.percentage) != 1.0m)
-            {
                 throw new ArgumentException("Total share percentage must equal 100%.");
-            }
 
             foreach (var share in shares)
-            {
                 _expenseShares.Add(new ExpenseShare
                 {
                     UserId = share.userId,
                     Percentage = share.percentage
                 });
-            }
 
             return this;
         }
@@ -136,9 +137,8 @@ public partial class Expense
                 throw new ArgumentException("Amount must be set and non-zero.");
             if (_date == default)
                 throw new ArgumentException("Date must be set.");
-            
+
             return new Expense(_userId, _familyId, _category, _amount, _date, _expenseShares);
         }
-    }    
+    }
 }
-

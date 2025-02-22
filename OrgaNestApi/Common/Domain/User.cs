@@ -1,4 +1,3 @@
-using OrgaNestApi.Features.Expenses;
 using OrgaNestApi.Features.Users;
 using ExpenseDto = OrgaNestApi.Features.Users.ExpenseDto;
 using ExpenseShareDto = OrgaNestApi.Features.Users.ExpenseShareDto;
@@ -19,7 +18,7 @@ public class User
 
     // Expenses the user is involved in (shared)
     public List<ExpenseShare> ExpenseShares { get; set; } = [];
-    
+
     public List<ShoppingList>? ShoppingLists { get; set; } = [];
 
     public UserDto ToDto()
@@ -29,13 +28,13 @@ public class User
             Id = Id,
             Name = Name,
             Email = Email,
-            UserFamilies = this.UserFamilies.Select(u => new UserFamilyDto
+            UserFamilies = UserFamilies.Select(u => new UserFamilyDto
             {
                 UserId = u.UserId,
                 FamilyId = u.FamilyId,
                 FamilyName = u.Family?.Name
             }).ToList(),
-            Expenses = this.Expenses.Select(e => new ExpenseDto
+            Expenses = Expenses.Select(e => new ExpenseDto
             {
                 UserId = e.UserId,
                 Date = e.Date,
@@ -43,21 +42,17 @@ public class User
                 Category = e.Category?.Name,
                 Shares = e.ExpenseShares.Select(x => new ExpenseShareDto
                 {
-                     UserId = x.UserId,
-                     ExpenseId = x.ExpenseId,
-                     Percentage = x.Percentage,
+                    UserId = x.UserId,
+                    ExpenseId = x.ExpenseId,
+                    Percentage = x.Percentage
                 }).ToList()
             }).ToList(),
-            ShoppingLists = this.ShoppingLists.Select(s => new ShoppingListDto
-            {
-                
-            }).ToList(),
-            ExpenseShares = this.ExpenseShares.Select(e => new ExpenseShareDto
+            ShoppingLists = ShoppingLists.Select(s => new ShoppingListDto()).ToList(),
+            ExpenseShares = ExpenseShares.Select(e => new ExpenseShareDto
             {
                 UserId = e.UserId,
                 ExpenseId = e.ExpenseId,
-                Percentage = e.Percentage,
-                
+                Percentage = e.Percentage
             }).ToList()
         };
     }

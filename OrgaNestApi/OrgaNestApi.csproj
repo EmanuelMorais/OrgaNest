@@ -7,21 +7,21 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="EFCore.BulkExtensions.Sqlite" Version="8.1.2" />
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="8.0.13" />
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.13" />
-        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.13" />
+        <PackageReference Include="EFCore.BulkExtensions.Sqlite" Version="8.1.2"/>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="8.0.13"/>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.13"/>
+        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.13"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.13">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.13" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="8.0.13" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.13"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="8.0.13"/>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Migrations\" />
+        <Folder Include="Migrations\"/>
     </ItemGroup>
 
 </Project>

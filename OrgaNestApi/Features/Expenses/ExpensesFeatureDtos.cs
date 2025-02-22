@@ -1,7 +1,7 @@
 namespace OrgaNestApi.Features.Expenses;
 
 /// <summary>
-/// DTO for creating an expense.
+///     DTO for creating an expense.
 /// </summary>
 public class CreateExpenseDto
 {
@@ -14,7 +14,7 @@ public class CreateExpenseDto
 }
 
 /// <summary>
-/// DTO for returning an expense.
+///     DTO for returning an expense.
 /// </summary>
 public class ExpenseDto
 {
@@ -24,12 +24,12 @@ public class ExpenseDto
     public string Category { get; set; } = string.Empty;
     public decimal Amount { get; set; }
     public DateTime Date { get; set; }
-    
+
     public List<ExpenseShareDto> Shares { get; set; } = new();
 }
 
 /// <summary>
-/// DTO for expense shares.
+///     DTO for expense shares.
 /// </summary>
 public class ExpenseShareDto
 {

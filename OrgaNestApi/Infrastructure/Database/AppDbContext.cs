@@ -1,10 +1,14 @@
-namespace OrgaNestApi.Infrastructure.Database;
-
-using Common.Domain;
 using Microsoft.EntityFrameworkCore;
+using OrgaNestApi.Common.Domain;
+
+namespace OrgaNestApi.Infrastructure.Database;
 
 public class AppDbContext : DbContext
 {
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+    {
+    }
+
     public DbSet<User> Users { get; set; }
     public DbSet<Family> Families { get; set; }
     public DbSet<UserFamily> UserFamilies { get; set; }
@@ -12,17 +16,12 @@ public class AppDbContext : DbContext
     public DbSet<ExpenseShare> ExpenseShares { get; set; }
     public DbSet<Category> Categories { get; set; }
     public DbSet<ShoppingList> ShoppingLists { get; set; }
-    
-    public DbSet<ShoppingItem> ShoppingItems { get; set; }
 
-    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+    public DbSet<ShoppingItem> ShoppingItems { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        if (!optionsBuilder.IsConfigured)
-        {
-            optionsBuilder.UseSqlite("Data Source=app.db");
-        }
+        if (!optionsBuilder.IsConfigured) optionsBuilder.UseSqlite("Data Source=app.db");
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -75,7 +74,7 @@ public class AppDbContext : DbContext
             .WithMany(f => f.Expenses)
             .HasForeignKey(e => e.FamilyId)
             .OnDelete(DeleteBehavior.Restrict); // Prevent deletion of family if expenses exist
-        
+
         modelBuilder.Entity<Expense>()
             .HasOne(e => e.Category)
             .WithMany() // If Category does not have navigation back to Expense, use .WithMany()
@@ -88,8 +87,8 @@ public class AppDbContext : DbContext
             entity.Property(c => c.Name)
                 .IsRequired() // Ensure that the Name is required
                 .HasMaxLength(100); // Set a maximum length for the Name
-        });      
-        
+        });
+
         modelBuilder.Entity<ShoppingList>()
             .HasKey(sl => sl.Id);
 
@@ -106,7 +105,7 @@ public class AppDbContext : DbContext
             .HasOne(si => si.ShoppingList)
             .WithMany(sl => sl.Items)
             .HasForeignKey(si => si.ShoppingListId)
-            .OnDelete(DeleteBehavior.Cascade);        
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
 
@@ -118,4 +117,3 @@ public static class ModelBuilderExtensions
         modelBuilder.HasAnnotation("Sqlite:ForeignKeys", true);
     }
 }
-

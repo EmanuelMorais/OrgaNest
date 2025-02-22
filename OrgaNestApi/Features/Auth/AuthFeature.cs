@@ -9,68 +9,6 @@ using OrgaNestApi.Infrastructure.Auth;
 
 namespace OrgaNestApi.Features.Auth;
 
-[Route("api/[controller]")]
-[ApiController]
-public class UserController : ControllerBase
-{
-    private readonly RoleManager<IdentityRole> _roleManager;
-    private readonly UserManager<ApplicationUser> _userManager;
-
-    public UserController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
-    {
-        _userManager = userManager;
-        _roleManager = roleManager;
-    }
-
-    // Create User
-    [HttpPost("create")]
-    public async Task<IActionResult> CreateUser([FromBody] CreateUserModel model)
-    {
-        var user = new ApplicationUser
-        {
-            UserName = model.Email,
-            Email = model.Email
-        };
-
-        var result = await _userManager.CreateAsync(user, model.Password);
-        if (!result.Succeeded)
-            return BadRequest(result.Errors);
-
-        return Ok(new { Message = "User created successfully!" });
-    }
-
-    // Create Role
-    [HttpPost("role/create")]
-    public async Task<IActionResult> CreateRole([FromBody] CreateRoleModel model)
-    {
-        var roleExist = await _roleManager.RoleExistsAsync(model.RoleName);
-        if (roleExist)
-            return BadRequest("Role already exists.");
-
-        var role = new IdentityRole { Name = model.RoleName };
-        var result = await _roleManager.CreateAsync(role);
-        if (!result.Succeeded)
-            return BadRequest(result.Errors);
-
-        return Ok(new { Message = "Role created successfully!" });
-    }
-
-    // Assign Role to User
-    [HttpPost("assign-role")]
-    public async Task<IActionResult> AssignRoleToUser([FromBody] AssignRoleModel model)
-    {
-        var user = await _userManager.FindByEmailAsync(model.Email);
-        if (user == null)
-            return NotFound("User not found.");
-
-        var result = await _userManager.AddToRoleAsync(user, model.RoleName);
-        if (!result.Succeeded)
-            return BadRequest(result.Errors);
-
-        return Ok(new { Message = "Role assigned successfully!" });
-    }
-}
-
 public class AuthController : ControllerBase
 {
     private readonly IConfiguration _configuration;
@@ -86,13 +24,13 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login([FromBody] LoginModel model)
+    public async Task<IActionResult> Login([FromBody] LoginDto dto)
     {
-        var user = await _userManager.FindByEmailAsync(model.Email);
+        var user = await _userManager.FindByEmailAsync(dto.Email);
         if (user == null)
             return Unauthorized();
 
-        var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
+        var result = await _signInManager.PasswordSignInAsync(user, dto.Password, false, false);
         if (!result.Succeeded)
             return Unauthorized();
 
@@ -145,27 +83,4 @@ public class AuthController : ControllerBase
 
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
-}
-
-public class LoginModel
-{
-    public string Email { get; set; }
-    public string Password { get; set; }
-}
-
-public class CreateUserModel
-{
-    public string Email { get; set; }
-    public string Password { get; set; }
-}
-
-public class CreateRoleModel
-{
-    public string RoleName { get; set; }
-}
-
-public class AssignRoleModel
-{
-    public string Email { get; set; }
-    public string RoleName { get; set; }
 }

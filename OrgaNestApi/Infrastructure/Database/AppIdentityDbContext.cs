@@ -6,7 +6,7 @@ namespace OrgaNestApi.Infrastructure.Database;
 
 public class AppIdentityDbContext : IdentityDbContext<ApplicationUser>
 {
-    public AppIdentityDbContext(DbContextOptions<AppIdentityDbContext> options) 
+    public AppIdentityDbContext(DbContextOptions<AppIdentityDbContext> options)
         : base(options)
     {
     }

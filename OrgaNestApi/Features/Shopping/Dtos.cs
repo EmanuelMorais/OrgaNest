@@ -36,7 +36,7 @@ public class UpdateShoppingItemDto
 public class ShoppingListDto
 {
     public Guid Id { get; set; }
-    
+
     public Guid UserId { get; set; }
     public string Name { get; set; }
     public List<ShoppingItemDto> Items { get; set; } = new();
