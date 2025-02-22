@@ -8,6 +8,9 @@
 
     <ItemGroup>
         <PackageReference Include="EFCore.BulkExtensions.Sqlite" Version="8.1.2" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="8.0.13" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.13" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.13" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.13">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
