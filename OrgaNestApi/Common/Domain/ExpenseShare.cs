@@ -16,9 +16,9 @@ public class ExpenseShare
     {
         return new ExpenseShareDto
         {
-            ExpenseId = this.ExpenseId,
-            UserId = this.UserId,
-            Percentage = this.Percentage
+            ExpenseId = ExpenseId,
+            UserId = UserId,
+            Percentage = Percentage
         };
     }
 }

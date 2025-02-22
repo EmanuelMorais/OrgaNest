@@ -1,14 +1,13 @@
+using Microsoft.EntityFrameworkCore;
 using OrgaNestApi.Common.Domain;
 
 namespace OrgaNestApi.Infrastructure.Extensions;
 
-using Microsoft.EntityFrameworkCore;
-
 public static class QueryableExtensions
 {
     public static async Task<PagedResult<T>> GetPagedAsync<T>(
-        this IQueryable<T> query, 
-        int pageNumber, 
+        this IQueryable<T> query,
+        int pageNumber,
         int pageSize,
         CancellationToken cancellationToken = default)
     {

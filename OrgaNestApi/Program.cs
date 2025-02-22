@@ -1,33 +1,37 @@
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.HttpLogging;
-using Microsoft.EntityFrameworkCore;
-using OrgaNestApi.Features.Categories;
-using OrgaNestApi.Features.Expenses;
-using OrgaNestApi.Features.Shopping;
-using OrgaNestApi.Features.Users;
-using OrgaNestApi.Infrastructure.Database;
+using OrgaNestApi.Common.Domain;
+using OrgaNestApi.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers()
-        .AddJsonOptions(options =>
-        {
-            options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
-        });
+    .AddJsonOptions(options => { options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve; });
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<IExpenseService, ExpenseService>();
-builder.Services.AddScoped<ICategoryService, CategoryService>();
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IShoppingListService, ShoppingListService>();
-builder.Services.AddScoped<IShoppingListRepository, ShoppingListRepository>();
+builder.Services.AddCustomServices();
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContexts(builder.Configuration.GetConnectionString("DefaultConnection"));
+
+builder.Services.AddIdentityServices();
+
+var secretKey = Environment.GetEnvironmentVariable("Jwt__SecretKey")
+                ?? builder.Configuration["Jwt:SecretKey"]
+                ?? throw new InvalidOperationException("Jwt:SecretKey not found");
+
+builder.Services.AddJwtAuthentication(
+    builder.Configuration["Jwt:Issuer"],
+    builder.Configuration["Jwt:Audience"],
+    secretKey);
+
+builder.Services.AddGoogleAuthentication(
+    builder.Configuration["Google:ClientId"],
+    builder.Configuration["Google:ClientSecret"]
+);
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy(Roles.Admin.ToString(), policy => policy.RequireRole(Roles.Admin.ToString()));
+});
 
 builder.Services.AddCors(options =>
 {
@@ -39,6 +43,7 @@ builder.Services.AddCors(options =>
                 .AllowAnyHeader();
         });
 });
+
 builder.Services.AddHttpLogging(logging =>
 {
     logging.LoggingFields = HttpLoggingFields.All;
@@ -46,23 +51,23 @@ builder.Services.AddHttpLogging(logging =>
     logging.MediaTypeOptions.AddText("application/javascript");
     logging.RequestBodyLogLimit = 4096;
     logging.ResponseBodyLogLimit = 4096;
-    logging.CombineLogs = true;    
+    logging.CombineLogs = true;
 });
+
+// Register Swagger services
+builder.Services.AddEndpointsApiExplorer(); // Adds necessary services for OpenAPI
+builder.Services.AddSwaggerGen(); // Register Swagger generator
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.UseDeveloperExceptionPage();
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseHttpLogging();
 
+app.UseCustomMiddleware();
 app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();

@@ -1,25 +1,14 @@
-using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Running;
-using System;
-using System.Net.Http;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
+using BenchmarkDotNet.Attributes;
 
 [MemoryDiagnoser]
 public class EndpointBenchmarks
 {
     private HttpClient? _client;
-    private Guid _testCategoryId;
-    private string? _testCategoryName; 
     private Guid _deleteCategoryId;
-
-    // DTO for deserializing API responses
-    public class CategoryResponse
-    {
-        public Guid Id { get; set; }
-        public string Name { get; set; } = string.Empty;
-    }
+    private Guid _testCategoryId;
+    private string? _testCategoryName;
 
     [GlobalSetup]
     public async Task GlobalSetup()
@@ -96,7 +85,7 @@ public class EndpointBenchmarks
         var content = new StringContent(requestBody, Encoding.UTF8, "application/json");
 
         var response = _client.PostAsync("/api/categories", content)
-                              .GetAwaiter().GetResult();
+            .GetAwaiter().GetResult();
         response.EnsureSuccessStatusCode();
         var result = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
         var category = JsonSerializer.Deserialize<CategoryResponse>(
@@ -110,5 +99,12 @@ public class EndpointBenchmarks
     {
         var response = await _client.DeleteAsync($"/api/categories/{_deleteCategoryId}");
         response.EnsureSuccessStatusCode();
+    }
+
+    // DTO for deserializing API responses
+    public class CategoryResponse
+    {
+        public Guid Id { get; set; }
+        public string Name { get; set; } = string.Empty;
     }
 }

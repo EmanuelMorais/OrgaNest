@@ -6,8 +6,8 @@ public class Family
     public string Name { get; set; } = string.Empty;
 
     // Many-to-Many: A family can have multiple users
-    public List<UserFamily> UserFamilies { get; set; } = new();
+    public ICollection<UserFamily> UserFamilies { get; set; } = [];
 
     // Expenses linked to the family
-    public List<Expense> Expenses { get; set; } = new();
+    public ICollection<Expense> Expenses { get; set; } = [];
 }
