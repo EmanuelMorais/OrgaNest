@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using OrgaNestApi.Common.Domain;
 using OrgaNestApi.Features.Users;
 using OrgaNestApi.Infrastructure.Database;
+using FluentAssertions;
 
 namespace UnitTests.Features.Users
 {
@@ -22,6 +23,11 @@ namespace UnitTests.Features.Users
             _service = new UserService(_context);
         }
 
+        public void Dispose()
+        {
+            _context?.Dispose();
+        }
+
         [Fact]
         public async Task CreateUserAsync_ShouldReturnUserDto_WhenUserIsCreated()
         {
@@ -33,9 +39,9 @@ namespace UnitTests.Features.Users
 
             var result = await _service.CreateUserAsync(createUserDto);
 
-            Assert.NotNull(result);
-            Assert.Equal(createUserDto.Name, result.Name);
-            Assert.Equal(createUserDto.Email, result.Email);
+            result.Should().NotBeNull();
+            result.Name.Should().Be(createUserDto.Name);
+            result.Email.Should().Be(createUserDto.Email);
         }
 
         [Fact]
@@ -54,10 +60,10 @@ namespace UnitTests.Features.Users
 
             var result = await _service.GetUserByIdAsync(userId);
 
-            Assert.NotNull(result);
-            Assert.Equal(userId, result.Id);
-            Assert.Equal("Jane Doe", result.Name);
-            Assert.Equal("jane.doe@example.com", result.Email);
+            result.Should().NotBeNull();
+            result.Id.Should().Be(userId);
+            result.Name.Should().Be("Jane Doe");
+            result.Email.Should().Be("jane.doe@example.com");
         }
 
         [Fact]
@@ -67,7 +73,7 @@ namespace UnitTests.Features.Users
 
             var result = await _service.GetUserByIdAsync(userId);
 
-            Assert.Null(result);
+            result.Should().BeNull();
         }
 
         [Fact]
@@ -75,7 +81,7 @@ namespace UnitTests.Features.Users
         {
             var result = await _service.GetAllUsersAsync();
 
-            Assert.Empty(result);
+            result.Should().BeEmpty();
         }
 
         [Fact]
@@ -83,8 +89,8 @@ namespace UnitTests.Features.Users
         {
             var mockUsers = new List<User>
             {
-                new User { Id = Guid.NewGuid(), Name = "User1", Email = "user1@example.com" },
-                new User { Id = Guid.NewGuid(), Name = "User2", Email = "user2@example.com" }
+                new() { Id = Guid.NewGuid(), Name = "User1", Email = "user1@example.com" },
+                new() { Id = Guid.NewGuid(), Name = "User2", Email = "user2@example.com" }
             };
 
             await _context.Users.AddRangeAsync(mockUsers);
@@ -92,8 +98,8 @@ namespace UnitTests.Features.Users
 
             var result = await _service.GetAllUsersAsync();
 
-            Assert.NotEmpty(result);
-            Assert.Equal(2, result.Count);
+            result.Should().NotBeEmpty();
+            result.Count.Should().Be(2);
         }
 
         [Fact]
@@ -103,12 +109,7 @@ namespace UnitTests.Features.Users
 
             var result = await _service.GetUserByIdAsync(userId);
 
-            Assert.Null(result);
-        }
-
-        public void Dispose()
-        {
-            _context?.Dispose();
+            result.Should().BeNull();
         }
     }
 }

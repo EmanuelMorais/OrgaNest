@@ -2,116 +2,122 @@ using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 using OrgaNestApi.Features.Categories;
 using OrgaNestApi.Infrastructure.Database;
+using FluentAssertions;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+using Xunit;
 
-namespace UnitTests.Features.Categories;
-
-[TestSubject(typeof(CategoryService))]
-public class CategoryServiceTests : IDisposable
+namespace UnitTests.Features.Categories
 {
-    private readonly AppDbContext _context;
-    private readonly CategoryService _service;
-
-    public CategoryServiceTests()
+    [TestSubject(typeof(CategoryService))]
+    public class CategoryServiceTests : IDisposable
     {
-        var options = new DbContextOptionsBuilder<AppDbContext>()
-            .UseInMemoryDatabase(Guid.NewGuid().ToString())
-            .Options;
-        _context = new AppDbContext(options);
-        _service = new CategoryService(_context);
-    }
+        private readonly AppDbContext _context;
+        private readonly CategoryService _service;
 
-    public void Dispose()
-    {
-        _context.Database.EnsureDeleted();
-        _context.Dispose();
-    }
+        public CategoryServiceTests()
+        {
+            var options = new DbContextOptionsBuilder<AppDbContext>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
+                .Options;
+            _context = new AppDbContext(options);
+            _service = new CategoryService(_context);
+        }
 
-    [Fact]
-    public async Task CreateCategoryAsync_CreatesCategory()
-    {
-        // Arrange
-        var request = new CreateCategoryRequest { Name = "TestCategory" };
+        public void Dispose()
+        {
+            _context.Database.EnsureDeleted();
+            _context.Dispose();
+        }
 
-        // Act
-        var category = await _service.CreateCategoryAsync(request, CancellationToken.None);
+        [Fact]
+        public async Task CreateCategoryAsync_CreatesCategory()
+        {
+            // Arrange
+            var request = new CreateCategoryRequest { Name = "TestCategory" };
 
-        // Assert
-        Assert.NotNull(category);
-        Assert.Equal("TestCategory", category.Name);
-    }
+            // Act
+            var category = await _service.CreateCategoryAsync(request, CancellationToken.None);
 
-    [Fact]
-    public async Task CreateCategoryAsync_WithExistingName_ThrowsInvalidOperationException()
-    {
-        // Arrange
-        var request = new CreateCategoryRequest { Name = "Duplicate" };
+            // Assert
+            category.Should().NotBeNull();
+            category.Name.Should().Be("TestCategory");
+        }
 
-        // Create an initial category
-        await _service.CreateCategoryAsync(request, CancellationToken.None);
+        [Fact]
+        public async Task CreateCategoryAsync_WithExistingName_ThrowsInvalidOperationException()
+        {
+            // Arrange
+            var request = new CreateCategoryRequest { Name = "Duplicate" };
 
-        // Act & Assert
-        await Assert.ThrowsAsync<InvalidOperationException>(() =>
-            _service.CreateCategoryAsync(request, CancellationToken.None));
-    }
+            // Create an initial category
+            await _service.CreateCategoryAsync(request, CancellationToken.None);
 
-    [Fact]
-    public async Task GetCategoryByIdAsync_ReturnsCategory()
-    {
-        // Arrange
-        var request = new CreateCategoryRequest { Name = "Category1" };
-        var createdCategory = await _service.CreateCategoryAsync(request, CancellationToken.None);
+            // Act & Assert
+            Func<Task> act = async () => await _service.CreateCategoryAsync(request, CancellationToken.None);
+            await act.Should().ThrowAsync<InvalidOperationException>();
+        }
 
-        // Act
-        var category = await _service.GetCategoryByIdAsync(createdCategory.Id, CancellationToken.None);
+        [Fact]
+        public async Task GetCategoryByIdAsync_ReturnsCategory()
+        {
+            // Arrange
+            var request = new CreateCategoryRequest { Name = "Category1" };
+            var createdCategory = await _service.CreateCategoryAsync(request, CancellationToken.None);
 
-        // Assert
-        Assert.NotNull(category);
-        Assert.Equal(createdCategory.Id, category!.Id);
-    }
+            // Act
+            var category = await _service.GetCategoryByIdAsync(createdCategory.Id, CancellationToken.None);
 
-    [Fact]
-    public async Task GetCategoryByNameAsync_ReturnsCategory()
-    {
-        // Arrange
-        var request = new CreateCategoryRequest { Name = "UniqueCategory" };
-        var createdCategory = await _service.CreateCategoryAsync(request, CancellationToken.None);
+            // Assert
+            category.Should().NotBeNull();
+            category.Id.Should().Be(createdCategory.Id);
+        }
 
-        // Act
-        var category = await _service.GetCategoryByNameAsync("UniqueCategory", CancellationToken.None);
+        [Fact]
+        public async Task GetCategoryByNameAsync_ReturnsCategory()
+        {
+            // Arrange
+            var request = new CreateCategoryRequest { Name = "UniqueCategory" };
+            var createdCategory = await _service.CreateCategoryAsync(request, CancellationToken.None);
 
-        // Assert
-        Assert.NotNull(category);
-        Assert.Equal(createdCategory.Id, category!.Id);
-    }
+            // Act
+            var category = await _service.GetCategoryByNameAsync("UniqueCategory", CancellationToken.None);
 
-    [Fact]
-    public async Task UpdateCategoryAsync_UpdatesCategory()
-    {
-        // Arrange
-        var request = new CreateCategoryRequest { Name = "Original" };
-        var createdCategory = await _service.CreateCategoryAsync(request, CancellationToken.None);
-        var updateRequest = new UpdateCategoryRequest { Name = "Updated" };
+            // Assert
+            category.Should().NotBeNull();
+            category.Id.Should().Be(createdCategory.Id);
+        }
 
-        // Act
-        var updatedCategory =
-            await _service.UpdateCategoryAsync(createdCategory.Id, updateRequest, CancellationToken.None);
+        [Fact]
+        public async Task UpdateCategoryAsync_UpdatesCategory()
+        {
+            // Arrange
+            var request = new CreateCategoryRequest { Name = "Original" };
+            var createdCategory = await _service.CreateCategoryAsync(request, CancellationToken.None);
+            var updateRequest = new UpdateCategoryRequest { Name = "Updated" };
 
-        // Assert
-        Assert.Equal("Updated", updatedCategory.Name);
-    }
+            // Act
+            var updatedCategory =
+                await _service.UpdateCategoryAsync(createdCategory.Id, updateRequest, CancellationToken.None);
 
-    [Fact]
-    public async Task DeleteCategoryAsync_DeletesCategory()
-    {
-        // Arrange
-        var request = new CreateCategoryRequest { Name = "ToDelete" };
-        var createdCategory = await _service.CreateCategoryAsync(request, CancellationToken.None);
+            // Assert
+            updatedCategory.Name.Should().Be("Updated");
+        }
 
-        // Act
-        await _service.DeleteCategoryAsync(createdCategory.Id, CancellationToken.None);
-        var category = await _service.GetCategoryByIdAsync(createdCategory.Id, CancellationToken.None);
+        [Fact]
+        public async Task DeleteCategoryAsync_DeletesCategory()
+        {
+            // Arrange
+            var request = new CreateCategoryRequest { Name = "ToDelete" };
+            var createdCategory = await _service.CreateCategoryAsync(request, CancellationToken.None);
 
-        // Assert
-        Assert.Null(category);
+            // Act
+            await _service.DeleteCategoryAsync(createdCategory.Id, CancellationToken.None);
+            var category = await _service.GetCategoryByIdAsync(createdCategory.Id, CancellationToken.None);
+
+            // Assert
+            category.Should().BeNull();
+        }
     }
 }
