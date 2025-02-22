@@ -9,9 +9,9 @@ namespace OrgaNestApi.Features.Shopping;
 [Route("api/shopping-lists")]
 public class ShoppingListController : ControllerBase
 {
-    private readonly ShoppingListService _service;
+    private readonly IShoppingListService _service;
 
-    public ShoppingListController(ShoppingListService service)
+    public ShoppingListController(IShoppingListService service)
     {
         _service = service;
     }
@@ -34,19 +34,21 @@ public class ShoppingListController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] ShoppingList shoppingList)
+    public async Task<IActionResult> Create([FromBody] CreateShoppingListDto shoppingList)
     {
-        await _service.AddShoppingList(shoppingList);
-        return CreatedAtAction(nameof(GetById), new { id = shoppingList.Id }, shoppingList);
+        var result = await _service.AddShoppingList(shoppingList);
+        
+        return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(Guid id, [FromBody] ShoppingList shoppingList)
+    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateShoppingListDto shoppingList)
     {
         if (id != shoppingList.Id)
             return BadRequest("ID mismatch");
 
         await _service.UpdateShoppingList(shoppingList);
+        
         return NoContent();
     }
 
@@ -76,13 +78,19 @@ public class ShoppingListService : IShoppingListService
         return await _repository.GetByIdAsync(id);
     }
 
-    public async Task AddShoppingList(ShoppingList shoppingList)
+    public async Task<ShoppingListDto> AddShoppingList(CreateShoppingListDto shoppingListDto)
     {
+        var shoppingList = shoppingListDto.ToDomain();
+
         await _repository.AddAsync(shoppingList);
+        
+        return shoppingList.ToDto();
     }
 
-    public async Task UpdateShoppingList(ShoppingList shoppingList)
+    public async Task UpdateShoppingList(UpdateShoppingListDto shoppingListDto)
     {
+        var shoppingList = shoppingListDto.ToDomain();
+        
         await _repository.UpdateAsync(shoppingList);
     }
 

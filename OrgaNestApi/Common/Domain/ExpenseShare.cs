@@ -1,3 +1,5 @@
+using OrgaNestApi.Features.Expenses;
+
 namespace OrgaNestApi.Common.Domain;
 
 public class ExpenseShare
@@ -9,4 +11,14 @@ public class ExpenseShare
     public User User { get; set; } = null!;
 
     public decimal Percentage { get; set; } // Example: 70% = 0.7
+
+    public ExpenseShareDto ToDto()
+    {
+        return new ExpenseShareDto
+        {
+            ExpenseId = this.ExpenseId,
+            UserId = this.UserId,
+            Percentage = this.Percentage
+        };
+    }
 }
