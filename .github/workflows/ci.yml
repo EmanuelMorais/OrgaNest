@@ -12,16 +12,68 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
+      - name: Debug File Structure
+        run: ls -R  # Prints all files in GitHub runner
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '8.0.x'
 
       - name: Restore Dependencies
-        run: dotnet restore
+        run: dotnet restore OrgaNestApi/OrgaNestApi.csproj
 
       - name: Build Solution
-        run: dotnet build --configuration Release --no-restore
+        run: dotnet build --configuration Release --no-restore OrgaNestApi/OrgaNestApi.csproj  # ✅ Corrected path
 
-      - name: Run Tests
-        run: dotnet test --configuration Release --no-build --verbosity normal
+      - name: Ensure SQLite Database Directory Exists
+        run: |
+          mkdir -p ~/.organestapi
+          touch ~/.organestapi/app.db
+          chmod 777 ~/.organestapi/app.db
+
+      - name: Build Unit Tests
+        run: dotnet build UnitTests/UnitTests.csproj --configuration Release 
+
+      - name: Run Unit Tests
+        run: dotnet test UnitTests/UnitTests.csproj --configuration Release --no-build --verbosity normal
+
+      - name: Start API in Background
+        run: |
+          dotnet run --configuration Release --project OrgaNestApi/OrgaNestApi.csproj & 
+          echo "Waiting for API to be ready..."
+          sleep 10
+
+      - name: Verify API is Running
+        run: curl --silent --fail http://localhost:5062/health || (echo "API failed to start" && exit 1)
+
+      - name: Generate and Trust HTTPS Certificate
+        run: |
+          dotnet dev-certs https --trust
+          mkdir -p $HOME/.aspnet/https 
+          dotnet dev-certs https --export-path $HOME/.aspnet/https/aspnetcore-local.pfx --password ${{ secrets.CERT_PASSWORD }}
+
+      # - name: Start API in Background with HTTPS
+      #   run: |
+      #     ASPNETCORE_URLS="https://localhost:5062" \
+      #     ASPNETCORE_Kestrel__Certificates__Default__Path="$HOME/.aspnet/https/aspnetcore-local.pfx" \
+      #     ASPNETCORE_Kestrel__Certificates__Default__Password="${{ secrets.CERT_PASSWORD }}" \
+      #     dotnet run --configuration Release --project OrgaNestApi/OrgaNestApi.csproj &
+      #     echo "Waiting for API to be ready..."
+      #     sleep 10
+
+      # - name: Set API Base URL for Benchmarks
+      #   run: echo "API_BASE_URL=http://localhost:5062" >> $GITHUB_ENV
+      
+
+      - name: Set API Base URL for Benchmarks
+        run: echo "API_BASE_URL=http://localhost:5062" >> $GITHUB_ENV
+            
+      - name: Run Benchmarks
+        run: dotnet run --configuration Release --project Benchmarks/Benchmarks.csproj -- --filter *
+
+      - name: Save Benchmark Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-results
+          path: BenchmarkDotNet.Artifacts/results

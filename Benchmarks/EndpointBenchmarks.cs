@@ -14,7 +14,8 @@ public class EndpointBenchmarks
     [GlobalSetup]
     public async Task GlobalSetup()
     {
-        _client = new HttpClient { BaseAddress = new Uri("https://localhost:7087") };
+        string baseUrl = Environment.GetEnvironmentVariable("API_BASE_URL") ?? "https://localhost:7087";
+        _client = new HttpClient { BaseAddress = new Uri(baseUrl) };
         _client.DefaultRequestHeaders.ConnectionClose = false; // Keep connections open
 
         // Use a unique category name to avoid conflict errors.

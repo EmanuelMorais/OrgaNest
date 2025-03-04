@@ -28,11 +28,20 @@ builder.Services.AddControllers()
 
 builder.Services.AddCustomServices();
 
-string dbFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "OrgaNestApi");
-Directory.CreateDirectory(dbFolder); // Ensure the folder exists
+string dbFolder;
+if (OperatingSystem.IsWindows())
+{
+    dbFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "OrgaNestApi");
+}
+else
+{
+    dbFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".organestapi");
+}
 
-string dbPath = Path.Combine(dbFolder, "app.db"); 
+// Ensure the database directory exists
+Directory.CreateDirectory(dbFolder);
 
+string dbPath = Path.Combine(dbFolder, "app.db");
 builder.Services.AddDbContexts($"Data Source={dbPath}");
 
 builder.Services.AddIdentityServices();
