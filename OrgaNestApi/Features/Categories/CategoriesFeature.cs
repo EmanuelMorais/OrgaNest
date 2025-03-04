@@ -67,7 +67,18 @@ public class CategoriesController : ControllerBase
         var pagedCategories = await _categoryService.GetAllAsync(pageNumber, pageSize, cancellationToken);
         return Ok(pagedCategories);
     }
-
+    
+    [HttpGet("cursor")]
+    public async Task<ActionResult<CursorPagedResult<Category>>> GetAll(
+        [FromQuery] Guid? cursor = null, // Use Id as the cursor
+        [FromQuery] DateTime? cursorCreatedAt = null, 
+        [FromQuery] int pageSize = 10,
+        CancellationToken cancellationToken = default)
+    {
+        var pagedCategories = await _categoryService.GetAllAsync(cursor, cursorCreatedAt, pageSize, cancellationToken);
+        return Ok(pagedCategories);
+    }
+    
     // Update Category by Id
     [HttpPut("{id:guid}")]
     public async Task<IActionResult> UpdateCategory(Guid id, [FromBody] UpdateCategoryRequest request,
@@ -173,4 +184,39 @@ public class CategoryService : ICategoryService
 
         await _context.SaveChangesAsync(cancellationToken);
     }
+    
+    public async Task<CursorPagedResult<Category>> GetAllAsync(
+        Guid? cursorId, 
+        DateTime? cursorCreatedAt, 
+        int pageSize,
+        CancellationToken cancellationToken)
+    {
+        var query = _context.Categories.AsNoTracking();
+
+        if (cursorId.HasValue && cursorCreatedAt.HasValue && cursorCreatedAt.Value != DateTime.MinValue)
+        {
+            query = query.Where(c => c.CreatedAt > cursorCreatedAt.Value || 
+                                     (c.CreatedAt == cursorCreatedAt.Value && c.Id > cursorId.Value));
+        }
+
+        query = query
+            .OrderBy(c => c.CreatedAt)
+            .ThenBy(c => c.Id);
+
+        var items = await query.Take(pageSize + 1).ToListAsync(cancellationToken);
+
+        // Determine the next cursor values
+        var hasNextPage = items.Count > pageSize;
+        var nextCursorItem = hasNextPage ? items[^1] : null;
+
+        return new CursorPagedResult<Category>
+        {
+            Data = items.Take(pageSize),
+            NextCursor = nextCursorItem?.Id,
+            NextCursorCreatedAt = nextCursorItem?.CreatedAt
+        };
+    }
+
+
+
 }

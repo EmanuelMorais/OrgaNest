@@ -37,13 +37,23 @@ public class ExpenseController : ControllerBase
     /// <summary>
     ///     Gets expenses for a user.
     /// </summary>
-    [HttpGet("user/{userId}")]
+    [HttpGet("user/id/{userId}")]
     public async Task<IActionResult> GetUserExpenses(Guid userId)
     {
         var expenses = await _expenseService.GetUserExpensesAsync(userId);
         return Ok(expenses);
     }
 
+    /// <summary>
+    ///     Gets expenses for a user.
+    /// </summary>
+    [HttpGet("user/email/{email}")]
+    public async Task<IActionResult> GetUserExpenses(string email)
+    {
+        var expenses = await _expenseService.GetUserExpensesAsync(email);
+        return Ok(expenses);
+    }
+    
     /// <summary>
     ///     Gets expenses for a family.
     /// </summary>
@@ -146,6 +156,19 @@ public class ExpenseService : IExpenseService
         return await _context.Expenses
             .Include(e => e.ExpenseShares)
             .Where(e => e.UserId == userId || e.ExpenseShares.Any(es => es.UserId == userId))
+            .Select(e => e.ToDto())
+            .ToListAsync();
+    }
+
+    public async Task<List<ExpenseDto>> GetUserExpensesAsync(string email)
+    {
+        var existentUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+
+        if (existentUser == null) throw new InvalidOperationException($"User with email {email} does not exist.");
+
+        return await _context.Expenses
+            .Include(e => e.ExpenseShares)
+            .Where(e => e.UserId == existentUser.Id || e.ExpenseShares.Any(es => es.UserId == existentUser.Id))
             .Select(e => e.ToDto())
             .ToListAsync();
     }

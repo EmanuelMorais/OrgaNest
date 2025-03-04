@@ -51,7 +51,7 @@ public class UserController : ControllerBase
     }
 
     // Get a user by ID
-    [HttpGet("{userId}")]
+    [HttpGet("id/{userId}")]
     public async Task<IActionResult> GetUser(Guid userId)
     {
         var user = await _userService.GetUserByIdAsync(userId);
@@ -63,7 +63,20 @@ public class UserController : ControllerBase
             Email = user.Email
         });
     }
-
+    // Get a user by email
+    [HttpGet("email/{email}")]
+    public async Task<IActionResult> GetUser(string email)
+    {
+        var user = await _userService.GetUserByEmailAsync(email);
+        if (user == null) return NotFound();
+        return Ok(new UserDto
+        {
+            Id = user.Id,
+            Name = user.Name,
+            Email = user.Email
+        });
+    }
+    
     // Get all users
     [HttpGet]
     public async Task<IActionResult> GetAllUsers()
@@ -147,5 +160,13 @@ public class UserService : IUserService
     public async Task<List<User>> GetAllUsersAsync()
     {
         return await _context.Users.ToListAsync();
+    }
+
+    public async Task<UserDto?> GetUserByEmailAsync(string email)
+    {
+        var user = await _context.Users
+            .FirstOrDefaultAsync(u => u.Email == email);
+
+        return user?.ToDto();
     }
 }

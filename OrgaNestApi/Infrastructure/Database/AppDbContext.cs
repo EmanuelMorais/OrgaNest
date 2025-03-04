@@ -83,11 +83,19 @@ public class AppDbContext : DbContext
 
         modelBuilder.Entity<Category>(entity =>
         {
-            entity.HasKey(c => c.Id); // Primary Key
+            entity.HasKey(c => c.Id); // Primary Key (GUID)
+
             entity.Property(c => c.Name)
-                .IsRequired() // Ensure that the Name is required
-                .HasMaxLength(100); // Set a maximum length for the Name
+                .IsRequired()
+                .HasMaxLength(100);
+
+            entity.Property(c => c.CreatedAt)
+                .IsRequired();
+
+            entity.HasIndex(c => new { c.CreatedAt, c.Id }) // Index for efficient cursor pagination
+                .HasDatabaseName("IX_Categories_CreatedAt_Id");
         });
+
 
         modelBuilder.Entity<ShoppingList>()
             .HasKey(sl => sl.Id);

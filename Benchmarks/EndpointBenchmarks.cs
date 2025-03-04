@@ -1,6 +1,7 @@
 using System.Text;
 using System.Text.Json;
 using BenchmarkDotNet.Attributes;
+using OrgaNestApi.Common.Domain;
 
 [MemoryDiagnoser]
 public class EndpointBenchmarks
@@ -14,6 +15,7 @@ public class EndpointBenchmarks
     public async Task GlobalSetup()
     {
         _client = new HttpClient { BaseAddress = new Uri("https://localhost:7087") };
+        _client.DefaultRequestHeaders.ConnectionClose = false; // Keep connections open
 
         // Use a unique category name to avoid conflict errors.
         _testCategoryName = "BenchmarkTestCategory_" + Guid.NewGuid();
@@ -32,12 +34,115 @@ public class EndpointBenchmarks
     [Benchmark]
     public async Task GetAllCategories()
     {
-        var response = await _client.GetAsync("/api/categories");
+        int pageNumber = 1;  // First page
+        int pageSize = 1000;   // Default page size
+
+        var response = await _client.GetAsync($"/api/categories?pageNumber={pageNumber}&pageSize={pageSize}");
         response.EnsureSuccessStatusCode();
-        var content = await response.Content.ReadAsStringAsync();
+    
+        using var stream = await response.Content.ReadAsStreamAsync();
+            
+        var result = await JsonSerializer.DeserializeAsync<CursorPagedResult<CategoryResponse>>(stream, new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        });
+    }
+    
+    [Benchmark]
+    public async Task GetAllPagesCategories()
+    {
+        int pageNumber = 1;
+        int pageSize = 1000;
+        int totalFetched = 0;
+
+        while (true)
+        {
+            var response = await _client.GetAsync($"/api/categories?pageNumber={pageNumber}&pageSize={pageSize}");
+            response.EnsureSuccessStatusCode();
+
+            using var stream = await response.Content.ReadAsStreamAsync();
+            
+            var result = await JsonSerializer.DeserializeAsync<CursorPagedResult<CategoryResponse>>(stream, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
+
+            var count = result.Data.Count();
+            
+            if (result == null || count == 0)
+                break; // No more pages to fetch
+
+            totalFetched += count;
+            pageNumber++; // Move to the next page
+        }
+
+        Console.WriteLine($"Total Categories Fetched: {totalFetched}");
     }
 
     [Benchmark]
+    public async Task GetAllCategoriesWithCursor()
+    {
+        string? cursor = null;
+        int pageSize = 1000;
+        int totalFetched = 0;
+
+        do
+        {
+            var url = $"/api/categories/cursor?pageSize={pageSize}&cursor={cursor}";
+
+            var response = await _client.GetAsync(url);
+            response.EnsureSuccessStatusCode();
+
+            using var stream = await response.Content.ReadAsStreamAsync();
+            
+            var result = await JsonSerializer.DeserializeAsync<CursorPagedResult<CategoryResponse>>(stream, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
+
+            if (result == null || result.Data.Count() == 0)
+                break; // No more data, exit loop
+
+            totalFetched += result.Data.Count();
+            cursor = result.NextCursor; // Get the next cursor for pagination
+
+        } while (!string.IsNullOrEmpty(cursor));
+
+        Console.WriteLine($"Total Categories Fetched: {totalFetched}");
+    }
+    
+    [Benchmark]
+    public async Task GetAllCategoriesPagesWithCursor()
+    {
+        string? cursor = null;
+        int pageSize = 1000;
+        int totalFetched = 0;
+
+        do
+        {
+            var url = $"/api/categories/cursor?pageSize={pageSize}&cursor={cursor}";
+
+            var response = await _client.GetAsync(url);
+            response.EnsureSuccessStatusCode();
+
+            using var stream = await response.Content.ReadAsStreamAsync();
+            
+            var result = await JsonSerializer.DeserializeAsync<CursorPagedResult<CategoryResponse>>(stream, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
+
+            if (result == null || result.Data.Count == 0)
+                break; // No more pages
+
+            totalFetched += result.Data.Count;
+            cursor = result.NextCursor; // Move to next set of results
+        } while (!string.IsNullOrEmpty(cursor));
+
+        Console.WriteLine($"Total Categories Fetched: {totalFetched}");
+    }
+    
+    /*[Benchmark]
     public async Task GetCategoryById()
     {
         var response = await _client.GetAsync($"/api/categories/{_testCategoryId}");
@@ -51,9 +156,9 @@ public class EndpointBenchmarks
         var response = await _client.GetAsync($"/api/categories/search?name={_testCategoryName}");
         response.EnsureSuccessStatusCode();
         var content = await response.Content.ReadAsStringAsync();
-    }
+    }*/
 
-    [Benchmark]
+    /*[Benchmark]
     public async Task CreateCategory()
     {
         // Generate a unique name for each creation.
@@ -99,12 +204,18 @@ public class EndpointBenchmarks
     {
         var response = await _client.DeleteAsync($"/api/categories/{_deleteCategoryId}");
         response.EnsureSuccessStatusCode();
-    }
+    }*/
 
     // DTO for deserializing API responses
     public class CategoryResponse
     {
         public Guid Id { get; set; }
         public string Name { get; set; } = string.Empty;
+    }
+    
+    public class CursorPagedResult<T>
+    {
+        public List<T> Data { get; set; } = new();
+        public string? NextCursor { get; set; }
     }
 }

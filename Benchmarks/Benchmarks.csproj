@@ -13,4 +13,8 @@
         <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="8.0.13"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\OrgaNestApi\OrgaNestApi.csproj" />
+    </ItemGroup>
+
 </Project>

@@ -5,18 +5,37 @@ using OrgaNestApi.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers()
-    .AddJsonOptions(options => { options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve; });
+// Use relative path for configuration files
+string basePath = AppContext.BaseDirectory;
 
-builder.Services.AddCustomServices();
+builder.Configuration
+    .SetBasePath(basePath)
+    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
+    .AddEnvironmentVariables();
 
-builder.Services.AddDbContexts(builder.Configuration.GetConnectionString("DefaultConnection"));
-
-builder.Services.AddIdentityServices();
-
+// Retrieve the secret key
 var secretKey = Environment.GetEnvironmentVariable("Jwt__SecretKey")
                 ?? builder.Configuration["Jwt:SecretKey"]
                 ?? throw new InvalidOperationException("Jwt:SecretKey not found");
+
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = null;
+        options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+    });
+
+builder.Services.AddCustomServices();
+
+string dbFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "OrgaNestApi");
+Directory.CreateDirectory(dbFolder); // Ensure the folder exists
+
+string dbPath = Path.Combine(dbFolder, "app.db"); 
+
+builder.Services.AddDbContexts($"Data Source={dbPath}");
+
+builder.Services.AddIdentityServices();
 
 builder.Services.AddJwtAuthentication(
     builder.Configuration["Jwt:Issuer"],
@@ -54,9 +73,11 @@ builder.Services.AddHttpLogging(logging =>
     logging.CombineLogs = true;
 });
 
-// Register Swagger services
-builder.Services.AddEndpointsApiExplorer(); // Adds necessary services for OpenAPI
-builder.Services.AddSwaggerGen(); // Register Swagger generator
+// ✅ Add a health check for GitHub Actions
+builder.Services.AddHealthChecks();
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
@@ -69,5 +90,12 @@ if (app.Environment.IsDevelopment())
 
 app.UseCustomMiddleware();
 app.UseHttpsRedirection();
+app.UseRouting();
+app.UseAuthorization();
+app.UseCors("AllowAll");
+
+// ✅ Map health check for CI verification
+app.MapHealthChecks("/health");
 app.MapControllers();
+
 app.Run();

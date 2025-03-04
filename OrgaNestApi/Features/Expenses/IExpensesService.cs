@@ -7,6 +7,7 @@ public interface IExpenseService
 
     Task<ExpenseDto?> GetExpenseByIdAsync(Guid expenseId);
     Task<List<ExpenseDto>> GetUserExpensesAsync(Guid userId);
+    Task<List<ExpenseDto>> GetUserExpensesAsync(string email);
     Task<List<ExpenseDto>> GetFamilyExpensesAsync(Guid familyId);
     Task<bool> DeleteExpenseAsync(Guid expenseId);
 
